@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const Landing = ({ onStart }) => {
+const Landing = ({ onStart, onWatchReel }) => {
     return (
         <div className="landing-container">
             <div className="hero-section">
@@ -23,17 +23,31 @@ const Landing = ({ onStart }) => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1.5 }}
                 >
-                    <motion.button
-                        id="enter-btn"
-                        className="glow-btn"
-                        whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(0, 229, 255, 0.8)" }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={onStart}
-                        initial={{ scale: 0.8 }}
-                        animate={{ scale: 1 }}
-                    >
-                        Start Game
-                    </motion.button>
+                    <div className="landing-actions">
+                        <motion.button
+                            id="enter-btn"
+                            className="glow-btn"
+                            whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(0, 229, 255, 0.8)" }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={onStart}
+                            initial={{ scale: 0.8 }}
+                            animate={{ scale: 1 }}
+                        >
+                            Start Game
+                        </motion.button>
+
+                        <motion.button
+                            className="reel-btn"
+                            whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(233, 69, 96, 0.8)" }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={onWatchReel}
+                            initial={{ scale: 0.8 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            WATCH REEL
+                        </motion.button>
+                    </div>
                 </motion.div>
             </div>
 

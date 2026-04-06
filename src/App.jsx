@@ -5,6 +5,7 @@ import Crossword from './components/Crossword';
 import Mcq from './components/Mcq';
 import Round3 from './components/Round3';
 import GrandFinale from './components/GrandFinale';
+import MarketingReel from './components/MarketingReel';
 import './index.css';
 import { GOOGLE_SHEET_URL } from './config';
 
@@ -14,6 +15,7 @@ function App() {
   const [round1Passkey, setRound1Passkey] = useState('');
   const [startTime, setStartTime] = useState(null);
   const [totalTime, setTotalTime] = useState(0);
+  const [showReel, setShowReel] = useState(false);
 
   const sendUpdate = (payload) => {
     if (!GOOGLE_SHEET_URL || GOOGLE_SHEET_URL === "PASTE_YOUR_SCRIPT_URL_HERE") return;
@@ -64,8 +66,13 @@ function App() {
 
   return (
     <>
-      {currentRound === 'landing' && <Landing onStart={handleStartGame} />}
-      
+      {currentRound === 'landing' && (
+        <>
+          <Landing onStart={handleStartGame} onWatchReel={() => setShowReel(true)} />
+          {showReel && <MarketingReel onClose={() => setShowReel(false)} />}
+        </>
+      )}
+
       {currentRound !== 'landing' && (
         <div className="app-container">
           {currentRound === 'registration' && (
