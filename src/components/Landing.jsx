@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const Landing = ({ onStart, onWatchReel }) => {
+const Landing = ({ onStart }) => {
     return (
         <div className="landing-container">
             <div className="hero-section">
@@ -36,17 +36,7 @@ const Landing = ({ onStart, onWatchReel }) => {
                             Start Game
                         </motion.button>
 
-                        <motion.button
-                            className="reel-btn"
-                            whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(233, 69, 96, 0.8)" }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={onWatchReel}
-                            initial={{ scale: 0.8 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.2 }}
-                        >
-                            WATCH REEL
-                        </motion.button>
+
                     </div>
                 </motion.div>
             </div>

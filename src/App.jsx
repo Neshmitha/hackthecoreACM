@@ -15,7 +15,7 @@ function App() {
   const [round1Passkey, setRound1Passkey] = useState('');
   const [startTime, setStartTime] = useState(null);
   const [totalTime, setTotalTime] = useState(0);
-  const [showReel, setShowReel] = useState(false);
+
 
   const sendUpdate = (payload) => {
     if (!GOOGLE_SHEET_URL || GOOGLE_SHEET_URL === "PASTE_YOUR_SCRIPT_URL_HERE") return;
@@ -68,8 +68,8 @@ function App() {
     <>
       {currentRound === 'landing' && (
         <>
-          <Landing onStart={handleStartGame} onWatchReel={() => setShowReel(true)} />
-          {showReel && <MarketingReel onClose={() => setShowReel(false)} />}
+          <Landing onStart={handleStartGame} />
+
         </>
       )}
 

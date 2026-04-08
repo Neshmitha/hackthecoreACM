@@ -185,26 +185,7 @@ h4 {
   align-items: center;
 }
 
-.reel-btn {
-  background: transparent;
-  color: var(--neon-pink);
-  border: 2px solid var(--neon-pink);
-  box-shadow: 0 0 10px rgba(233, 69, 96, 0.4);
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
-  transition: all 0.3s;
-}
 
-.reel-btn:hover {
-  background: var(--neon-pink);
-  color: white;
-}
 
 .action-btn {
   background-color: var(--neon-pink);
