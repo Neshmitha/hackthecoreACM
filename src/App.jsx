@@ -53,6 +53,10 @@ function App() {
     setCurrentRound('round3');
   };
   
+  const handlePenalty = (seconds) => {
+    setStartTime(prev => prev - (seconds * 1000));
+  };
+
   const handleRound3Complete = () => {
     const durationInSeconds = Math.floor((Date.now() - startTime) / 1000);
     setTotalTime(durationInSeconds);
@@ -84,7 +88,12 @@ function App() {
           )}
 
           {currentRound === 'round2' && (
-            <Mcq teamData={teamData} round1Passkey={round1Passkey} onComplete={handleRound2Complete} />
+            <Mcq 
+              teamData={teamData} 
+              round1Passkey={round1Passkey} 
+              onComplete={handleRound2Complete} 
+              onPenalty={handlePenalty}
+            />
           )}
 
           {currentRound === 'round3' && (

@@ -4,6 +4,7 @@ import { motion, Reorder } from 'framer-motion';
 const mcqSets = {
     setA: {
         id: 'A',
+        setName: "",
         passkey: "90",
         blocks: [
             { id: 'H1', label: '#include <stdio.h>', correct: '#include <stdio.h>' },
@@ -26,11 +27,35 @@ const mcqSets = {
             { id: 'M3', label: '}', correct: '}' }
         ],
         targetOrder: ['H1', 'H2', 'M1', 'G', 'I', 'J', 'D', 'K', 'E', 'F', 'C', 'A', 'L', 'B', 'K2', 'H', 'M2', 'M3']
+    },
+    setB: {
+        id: 'B',
+        setName: "",
+        passkey: "59",
+        blocks: [
+            { id: 'H1', label: '#include <stdio.h>', correct: '#include <stdio.h>' },
+            { id: 'H2', label: '#include <stdlib.h>', correct: '#include <stdlib.h>' },
+            { id: 'M1', label: 'int main() {', correct: 'int main() {' },
+            { id: 'G', label: 'struct Node* table[5] = {NULL};', correct: 'struct Node* table[5] = {NULL};' },
+            { id: 'H', label: 'int keys[] = {12, 7, 18, 22, 32};', correct: 'int keys[] = {12, 7, 18, 22, 32};' },
+            { id: 'D', label: 'for(i = 0; i < 5; i++) {', correct: 'for(i = 0; i < 5; i++) {' },
+            { id: 'C', label: 'int h = keys[i] % 5', correct: 'int h = keys[i] % 5;' },
+            { id: 'K', label: 'struct Node* nn = (struct Node*)malloc(sizeof(struct Node));', correct: 'struct Node* nn = (struct Node*)malloc(sizeof(struct Node));' },
+            { id: 'I', label: 'nn.key = keys[i];', correct: 'nn->key = keys[i];' },
+            { id: 'A', label: 'nn->next = table[h]', correct: 'nn->next = table[h];' },
+            { id: 'B', label: 'table[h] = nn;', correct: 'table[h] = nn;' },
+            { id: 'J', label: '}', correct: '}' },
+            { id: 'E', label: 'int result = table[2]->key + table[2]->next->key;', correct: 'int result = table[2]->key + table[2]->next->key;' },
+            { id: 'F', label: 'printf("%d", result + 5)', correct: 'printf("%d", result + 5);' },
+            { id: 'M2', label: 'return 0;', correct: 'return 0;' },
+            { id: 'M3', label: '}', correct: '}' }
+        ],
+        targetOrder: ['H1', 'H2', 'M1', 'G', 'H', 'D', 'C', 'K', 'I', 'A', 'B', 'J', 'E', 'F', 'M2', 'M3']
     }
 };
 
 const Round3 = ({ teamData, onComplete }) => {
-    const [challenge] = useState(mcqSets.setA);
+    const [challenge, setChallenge] = useState(null);
     const [blocks, setBlocks] = useState([]);
     const [passkeyInput, setPasskeyInput] = useState('');
     const [compilationSuccess, setCompilationSuccess] = useState(false);
@@ -39,9 +64,14 @@ const Round3 = ({ teamData, onComplete }) => {
     const [editValue, setEditValue] = useState('');
 
     useEffect(() => {
-        const shuffled = [...mcqSets.setA.blocks].sort(() => Math.random() - 0.5);
+        const rollNo = teamData?.members?.[0]?.rollNo || "";
+        const is25 = /1602-25-/i.test(rollNo);
+        const selected = is25 ? mcqSets.setA : mcqSets.setB;
+
+        setChallenge(selected);
+        const shuffled = [...selected.blocks].sort(() => Math.random() - 0.5);
         setBlocks(shuffled);
-    }, []);
+    }, [teamData]);
 
     const handleBlockEdit = (block) => {
         setEditingBlock(block.id);
@@ -54,20 +84,51 @@ const Round3 = ({ teamData, onComplete }) => {
     };
 
     const checkSolution = () => {
+        if (!challenge) return;
         const normalize = (str) => str.replace(/\s+/g, '').toUpperCase();
         const userCode = normalize(blocks.map(b => b.label).join(''));
         const targetBlocksMap = challenge.blocks.reduce((acc, b) => ({ ...acc, [b.id]: b.correct }), {});
-        const target1 = normalize(challenge.targetOrder.map(id => targetBlocksMap[id]).join(''));
 
-        if (userCode === target1) {
+        let isCorrect = false;
+
+        if (challenge.id === 'A') {
+            // Flexible orders for Question 1 (Set A)
+            const prefix = normalize(['H1', 'H2', 'M1'].map(id => targetBlocksMap[id]).join(''));
+            const loop1 = normalize(['J', 'D', 'K'].map(id => targetBlocksMap[id]).join(''));
+            const suffix = normalize(['F', 'C', 'A', 'L', 'B', 'K2', 'H', 'M2', 'M3'].map(id => targetBlocksMap[id]).join(''));
+
+            const g = normalize(targetBlocksMap['G']); // ptr
+            const i = normalize(targetBlocksMap['I']); // sum
+            const e = normalize(targetBlocksMap['E']); // temp
+
+            const validPatterns = [
+                // Original: ptr, sum, loop1, temp, suffix
+                prefix + g + i + loop1 + e + suffix,
+                // Perm 1: ptr, sum, temp, loop1, suffix
+                prefix + g + i + e + loop1 + suffix,
+                // Perm 2: ptr, temp, sum, loop1, suffix
+                prefix + g + e + i + loop1 + suffix,
+                // Perm 3: sum, ptr, temp, loop1, suffix
+                prefix + i + g + e + loop1 + suffix
+            ];
+
+            if (validPatterns.includes(userCode)) isCorrect = true;
+
+        } else if (challenge.id === 'B') {
+            // Basic order for Set B
+            const target1 = normalize(challenge.targetOrder.map(id => targetBlocksMap[id]).join(''));
+            if (userCode === target1) isCorrect = true;
+        }
+
+        if (isCorrect) {
             setCompilationSuccess(true);
             setStatusMsg("");
         } else {
             const isSyntaxClean = blocks.every(b => normalize(b.label) === normalize(b.correct));
             if (!isSyntaxClean) {
-                setStatusMsg("❌ Syntax Error: Check syntax logic carefully.");
+                setStatusMsg("❌ Syntax Error: Verify stars (*), arrows (->), and semicolons (;).");
             } else {
-                setStatusMsg("❌ Logical Error: Block order is incorrect.");
+                setStatusMsg("❌ Logical Error: The block order is incorrect. Trace the flow carefully!");
             }
             setTimeout(() => setStatusMsg(""), 5000);
         }
@@ -81,6 +142,8 @@ const Round3 = ({ teamData, onComplete }) => {
             setTimeout(() => setStatusMsg(""), 3000);
         }
     };
+
+    if (!challenge) return <div style={{ color: 'white', textAlign: 'center', padding: '50px' }}>Initializing Challenge...</div>;
 
     return (
         <motion.div
@@ -96,8 +159,8 @@ const Round3 = ({ teamData, onComplete }) => {
                     <div className="mcq-scroll" style={{ maxHeight: '600px', marginBottom: '20px' }}>
                         <Reorder.Group axis="y" values={blocks} onReorder={setBlocks} style={{ listStyle: 'none', padding: 0 }}>
                             {blocks.map((block) => (
-                                <Reorder.Item 
-                                    key={block.id} 
+                                <Reorder.Item
+                                    key={block.id}
                                     value={block}
                                     style={{
                                         background: '#0d1117',
@@ -115,13 +178,13 @@ const Round3 = ({ teamData, onComplete }) => {
                                     whileDrag={{ scale: 1.02, boxShadow: '0 0 20px rgba(88, 166, 255, 0.3)' }}
                                 >
                                     <span style={{ color: '#8b949e', fontSize: '1.1rem', userSelect: 'none' }}>⠿</span>
-                                    <div 
+                                    <div
                                         style={{ flex: 1, color: '#e6edf3', cursor: 'pointer', textAlign: 'left' }}
                                         onClick={() => handleBlockEdit(block)}
                                     >
                                         {block.label}
                                     </div>
-                                    <button 
+                                    <button
                                         onClick={() => handleBlockEdit(block)}
                                         style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #444', color: '#8b949e', borderRadius: '4px', padding: '4px 8px', fontSize: '0.7rem' }}
                                     >
@@ -135,9 +198,9 @@ const Round3 = ({ teamData, onComplete }) => {
                     {editingBlock && (
                         <div style={{ background: 'rgba(0,0,0,0.5)', padding: '15px', borderRadius: '8px', border: '1px solid #58a6ff', marginBottom: '20px' }}>
                             <div style={{ display: 'flex', gap: '10px' }}>
-                                <input 
-                                    className="modern-input" 
-                                    value={editValue} 
+                                <input
+                                    className="modern-input"
+                                    value={editValue}
                                     onChange={(e) => setEditValue(e.target.value)}
                                     style={{ margin: 0, flex: 1, fontSize: '0.9rem' }}
                                 />
@@ -159,8 +222,8 @@ const Round3 = ({ teamData, onComplete }) => {
                             <span style={{ color: '#ffcc00' }}>[!] Output Passkey:</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                            <input 
-                                className="modern-input" 
+                            <input
+                                className="modern-input"
                                 style={{ width: '180px', margin: 0, textAlign: 'center', fontWeight: 'bold' }}
                                 placeholder="?"
                                 value={passkeyInput}

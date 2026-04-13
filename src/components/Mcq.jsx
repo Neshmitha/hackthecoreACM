@@ -140,7 +140,7 @@ const mcqSets = [
     }
 ];
 
-const Mcq = ({ teamData, round1Passkey, onComplete }) => {
+const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
     const [mcqSet, setMcqSet] = useState(null);
     const [answers, setAnswers] = useState([]);
     const [passkeyInput, setPasskeyInput] = useState('');
@@ -149,6 +149,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete }) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [attempts, setAttempts] = useState({});
     const [isComplete, setIsComplete] = useState(false);
+    const [showPenaltyToast, setShowPenaltyToast] = useState(false);
 
     useEffect(() => {
         let pool = [];
@@ -189,12 +190,10 @@ const Mcq = ({ teamData, round1Passkey, onComplete }) => {
             el.classList.add('incorrect');
             setTimeout(() => el.classList.remove('incorrect'), 1000);
 
-            if (currentAttempts >= 2) {
-                const newAns = [...answers];
-                newAns[qIndex] = false; // Failed after 2 tries
-                setAnswers(newAns);
-                setErrorMsg("MISSION FAILED: Question Locked! No more attempts allowed.");
-            }
+            // Add 10s penalty for every wrong click
+            if (onPenalty) onPenalty(10);
+            setShowPenaltyToast(true);
+            setTimeout(() => setShowPenaltyToast(false), 2000);
         }
     };
 
@@ -252,6 +251,31 @@ const Mcq = ({ teamData, round1Passkey, onComplete }) => {
             transition={{ duration: 0.5 }}
         >
             <h2 className="neon-text" style={{ textAlign: 'center', marginBottom: '30px' }}>Round 2</h2>
+
+            {showPenaltyToast && (
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.5, y: -20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    style={{
+                        position: 'fixed',
+                        top: '10%',
+                        left: '50%',
+                        x: '-50%',
+                        background: 'rgba(244, 67, 54, 0.9)',
+                        color: 'white',
+                        padding: '10px 25px',
+                        borderRadius: '50px',
+                        fontWeight: 'bold',
+                        zIndex: 1000,
+                        boxShadow: '0 0 20px rgba(244, 67, 54, 0.4)',
+                        border: '1px solid #f44336',
+                        fontSize: '1.2rem',
+                        letterSpacing: '1px'
+                    }}
+                >
+                    ⚠️ PENALTY: +10s
+                </motion.div>
+            )}
             
             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '30px', alignItems: 'start' }}>
                 {/* LEFT SIDE: QUESTIONS */}
@@ -260,8 +284,8 @@ const Mcq = ({ teamData, round1Passkey, onComplete }) => {
                         💡 <strong>Strategy:</strong> Answer each question correctly to reveal a line of "Broken Code" on the right. Solve the code to find the passkey!
                     </p>
                     {mcqSet.questions.map((q, qIndex) => (
-                        <div key={qIndex} className="mcq-card" style={{ marginBottom: '30px', padding: '20px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: answers[qIndex] === false ? '2px solid #f44336' : '1px solid rgba(255,255,255,0.1)' }}>
-                            <h4 style={{ margin: '0 0 15px 0', fontSize: '1.2rem', color: answers[qIndex] === false ? '#f44336' : '#00e5ff', fontFamily: 'Rajdhani, sans-serif' }}>{qIndex + 1}. {q.q}</h4>
+                        <div key={qIndex} className="mcq-card" style={{ marginBottom: '30px', padding: '20px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                            <h4 style={{ margin: '0 0 15px 0', fontSize: '1.2rem', color: '#00e5ff', fontFamily: 'Rajdhani, sans-serif' }}>{qIndex + 1}. {q.q}</h4>
                             
                             {q.image && (
                                 <div style={{ marginBottom: '20px', textAlign: 'center', background: 'rgba(0,0,0,0.3)', padding: '15px', borderRadius: '8px', border: '1px solid rgba(0, 229, 255, 0.1)' }}>
@@ -272,31 +296,30 @@ const Mcq = ({ teamData, round1Passkey, onComplete }) => {
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontFamily: 'Rajdhani, sans-serif' }}>
                                 {q.options.map((opt, optIndex) => {
                                     const isCorrect = answers[qIndex] === true && q.correctIndex === optIndex;
-                                    const isLocked = answers[qIndex] !== null;
-                                    const isFailed = answers[qIndex] === false;
+                                    const isLocked = answers[qIndex] === true;
+                                    
                                     
                                     return (
                                         <div
                                             key={optIndex}
                                             id={`opt-${qIndex}-${optIndex}`}
-                                            className={`mcq-option ${isCorrect ? 'correct' : ''} ${isLocked ? 'locked' : ''} ${isFailed ? 'failed' : ''}`}
+                                            className={`mcq-option ${isCorrect ? 'correct' : ''} ${isLocked ? 'locked' : ''}`}
                                             style={{
                                                 padding: '10px 15px',
-                                                background: isCorrect ? 'rgba(0, 229, 255, 0.25)' : isFailed ? 'rgba(244, 67, 54, 0.2)' : 'rgba(255,255,255,0.03)',
+                                                background: isCorrect ? 'rgba(0, 229, 255, 0.25)' : 'rgba(255,255,255,0.03)',
                                                 borderRadius: '8px',
                                                 cursor: isLocked ? 'default' : 'pointer',
-                                                border: isCorrect ? '2px solid #00e5ff' : isFailed ? '2px solid #f44336' : '1px solid rgba(0, 229, 255, 0.2)',
-                                                color: isCorrect ? '#00e5ff' : isFailed ? '#f44336' : '#fff',
+                                                border: isCorrect ? '2px solid #00e5ff' : '1px solid rgba(0, 229, 255, 0.2)',
+                                                color: isCorrect ? '#00e5ff' : '#fff',
                                                 fontSize: '1rem',
                                                 fontWeight: 'bold',
                                                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                                opacity: isLocked && !isCorrect && !isFailed ? 0.4 : 1,
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
                                                 textAlign: 'center',
                                                 minHeight: '40px',
-                                                boxShadow: isLocked && isCorrect ? '0 0 10px rgba(0, 229, 255, 0.3)' : 'none',
+                                                boxShadow: isCorrect ? '0 0 10px rgba(0, 229, 255, 0.3)' : 'none',
                                                 textTransform: opt.length === 1 ? 'uppercase' : 'none'
                                             }}
                                             onClick={() => handleOptionClick(qIndex, optIndex)}
@@ -306,15 +329,10 @@ const Mcq = ({ teamData, round1Passkey, onComplete }) => {
                                     );
                                 })}
                             </div>
-                            {answers[qIndex] === false && (
-                                <p style={{ color: '#f44336', fontSize: '0.85rem', marginTop: '10px', fontStyle: 'italic' }}>⚠️ Locked: 2 incorrect attempts. No more tries allowed.</p>
-                            )}
                         </div>
                     ))}
-                    {/* Removed Reset Button as per user request: "once lost they lost" */}
                 </div>
 
-                {/* RIGHT SIDE: PROGRESSIVE CODE REVEAL */}
                 <div style={{ background: '#0d1117', borderRadius: '15px', padding: '25px', border: '1px solid #30363d', position: 'sticky', top: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid #30363d', paddingBottom: '10px' }}>
                         <span style={{ color: '#58a6ff', fontWeight: 'bold', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
