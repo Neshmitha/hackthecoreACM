@@ -154,7 +154,7 @@ const Round3 = ({ teamData, onComplete }) => {
         >
             <h2 className="neon-text" style={{ marginBottom: '40px' }}>Round 3</h2>
 
-            <div className="mcq-scroll" style={{ maxHeight: '600px', marginBottom: '20px', opacity: compilationSuccess ? 0.7 : 1, pointerEvents: compilationSuccess ? 'none' : 'auto' }}>
+            <div className="mcq-scroll" style={{ maxHeight: compilationSuccess ? '1000px' : '500px', marginBottom: '20px', opacity: compilationSuccess ? 0.9 : 1, pointerEvents: compilationSuccess ? 'none' : 'auto', transition: 'max-height 0.5s ease' }}>
                 <Reorder.Group axis="y" values={blocks} onReorder={setBlocks} style={{ listStyle: 'none', padding: 0 }}>
                     {blocks.map((block) => (
                         <Reorder.Item
