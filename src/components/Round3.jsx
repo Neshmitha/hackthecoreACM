@@ -154,87 +154,81 @@ const Round3 = ({ teamData, onComplete }) => {
         >
             <h2 className="neon-text" style={{ marginBottom: '40px' }}>Round 3</h2>
 
-            {!compilationSuccess ? (
-                <>
-                    <div className="mcq-scroll" style={{ maxHeight: '600px', marginBottom: '20px' }}>
-                        <Reorder.Group axis="y" values={blocks} onReorder={setBlocks} style={{ listStyle: 'none', padding: 0 }}>
-                            {blocks.map((block) => (
-                                <Reorder.Item
-                                    key={block.id}
-                                    value={block}
-                                    style={{
-                                        background: '#0d1117',
-                                        border: '1px solid #30363d',
-                                        padding: '10px 15px',
-                                        marginBottom: '8px',
-                                        borderRadius: '6px',
-                                        cursor: 'grab',
-                                        fontFamily: 'Fira Code, monospace',
-                                        fontSize: '0.85rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '12px'
-                                    }}
-                                    whileDrag={{ scale: 1.02, boxShadow: '0 0 20px rgba(88, 166, 255, 0.3)' }}
-                                >
-                                    <span style={{ color: '#8b949e', fontSize: '1.1rem', userSelect: 'none' }}>⠿</span>
-                                    <div
-                                        style={{ flex: 1, color: '#e6edf3', cursor: 'pointer', textAlign: 'left' }}
-                                        onClick={() => handleBlockEdit(block)}
-                                    >
-                                        {block.label}
-                                    </div>
-                                    <button
-                                        onClick={() => handleBlockEdit(block)}
-                                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #444', color: '#8b949e', borderRadius: '4px', padding: '4px 8px', fontSize: '0.7rem' }}
-                                    >
-                                        Edit
-                                    </button>
-                                </Reorder.Item>
-                            ))}
-                        </Reorder.Group>
-                    </div>
-
-                    {editingBlock && (
-                        <div style={{ background: 'rgba(0,0,0,0.5)', padding: '15px', borderRadius: '8px', border: '1px solid #58a6ff', marginBottom: '20px' }}>
-                            <div style={{ display: 'flex', gap: '10px' }}>
-                                <input
-                                    className="modern-input"
-                                    value={editValue}
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    style={{ margin: 0, flex: 1, fontSize: '0.9rem' }}
-                                />
-                                <button className="registration-action-btn" onClick={saveEdit} style={{ margin: 0, padding: '0 15px', fontSize: '0.9rem' }}>Save</button>
+            <div className="mcq-scroll" style={{ maxHeight: '600px', marginBottom: '20px', opacity: compilationSuccess ? 0.7 : 1, pointerEvents: compilationSuccess ? 'none' : 'auto' }}>
+                <Reorder.Group axis="y" values={blocks} onReorder={setBlocks} style={{ listStyle: 'none', padding: 0 }}>
+                    {blocks.map((block) => (
+                        <Reorder.Item
+                            key={block.id}
+                            value={block}
+                            style={{
+                                background: '#0d1117',
+                                border: '1px solid #30363d',
+                                padding: '10px 15px',
+                                marginBottom: '8px',
+                                borderRadius: '6px',
+                                cursor: compilationSuccess ? 'default' : 'grab',
+                                fontFamily: 'Fira Code, monospace',
+                                fontSize: '0.85rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px'
+                            }}
+                            whileDrag={compilationSuccess ? {} : { scale: 1.02, boxShadow: '0 0 20px rgba(88, 166, 255, 0.3)' }}
+                        >
+                            {!compilationSuccess && <span style={{ color: '#8b949e', fontSize: '1.1rem', userSelect: 'none' }}>⠿</span>}
+                            <div
+                                style={{ flex: 1, color: '#e6edf3', cursor: compilationSuccess ? 'default' : 'pointer', textAlign: 'left' }}
+                                onClick={() => !compilationSuccess && handleBlockEdit(block)}
+                            >
+                                {block.label}
                             </div>
-                        </div>
-                    )}
+                            {!compilationSuccess && (
+                                <button
+                                    onClick={() => handleBlockEdit(block)}
+                                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #444', color: '#8b949e', borderRadius: '4px', padding: '4px 8px', fontSize: '0.7rem' }}
+                                >
+                                    Edit
+                                </button>
+                            )}
+                        </Reorder.Item>
+                    ))}
+                </Reorder.Group>
+            </div>
 
-                    <div style={{ marginTop: '20px' }}>
-                        <button className="registration-action-btn" onClick={checkSolution} style={{ border: '2px solid #58a6ff', color: '#58a6ff', padding: '12px 40px', fontSize: '1.1rem' }}>Done ✅</button>
-                        {statusMsg && <p style={{ color: '#f85149', marginTop: '10px', fontWeight: 'bold' }}>{statusMsg}</p>}
-                    </div>
-                </>
-            ) : (
-                <div style={{ textAlign: 'center', padding: '20px' }}>
-                    <div style={{ background: 'rgba(126, 231, 135, 0.1)', border: '2px solid #7ee787', padding: '25px', borderRadius: '12px' }}>
-                        <h2 style={{ color: '#7ee787', marginBottom: '10px' }}>LOGIC COMPILED!</h2>
-                        <div style={{ background: '#000', padding: '15px', borderRadius: '8px', marginBottom: '20px', fontFamily: 'monospace', color: '#7ee787', border: '1px solid #30363d', textAlign: 'left' }}>
-                            <span style={{ color: '#ffcc00' }}>[!] Output Passkey:</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                            <input
-                                className="modern-input"
-                                style={{ width: '180px', margin: 0, textAlign: 'center', fontWeight: 'bold' }}
-                                placeholder="?"
-                                value={passkeyInput}
-                                onChange={(e) => setPasskeyInput(e.target.value)}
-                            />
-                            <button className="registration-action-btn" style={{ margin: 0, background: '#238636' }} onClick={handlePasskeySubmit}>Submit</button>
-                        </div>
-                        {statusMsg && <p style={{ color: '#f85149', marginTop: '10px', fontWeight: 'bold' }}>{statusMsg}</p>}
+            {editingBlock && !compilationSuccess && (
+                <div style={{ background: 'rgba(0,0,0,0.5)', padding: '15px', borderRadius: '8px', border: '1px solid #58a6ff', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <input
+                            className="modern-input"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            style={{ margin: 0, flex: 1, fontSize: '0.9rem' }}
+                        />
+                        <button className="registration-action-btn" onClick={saveEdit} style={{ margin: 0, padding: '0 15px', fontSize: '0.9rem' }}>Save</button>
                     </div>
                 </div>
             )}
+
+            <div style={{ marginTop: '20px' }}>
+                {!compilationSuccess ? (
+                    <button className="registration-action-btn" onClick={checkSolution} style={{ border: '2px solid #58a6ff', color: '#58a6ff', padding: '12px 40px', fontSize: '1.1rem' }}>Done ✅</button>
+                ) : (
+                    <div style={{ background: 'rgba(126, 231, 135, 0.1)', border: '1px solid #7ee787', padding: '20px', borderRadius: '12px', maxWidth: '400px', margin: '0 auto' }}>
+                        <h3 style={{ color: '#7ee787', marginBottom: '15px', fontSize: '1rem' }}>✅ LOGIC COMPILED! ENTER OUTPUT:</h3>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                            <input
+                                className="modern-input"
+                                style={{ width: '120px', margin: 0, textAlign: 'center', fontWeight: 'bold' }}
+                                placeholder="Output"
+                                value={passkeyInput}
+                                onChange={(e) => setPasskeyInput(e.target.value)}
+                            />
+                            <button className="registration-action-btn" style={{ margin: 0, background: '#238636', padding: '0 20px' }} onClick={handlePasskeySubmit}>Submit</button>
+                        </div>
+                    </div>
+                )}
+                {statusMsg && <p style={{ color: statusMsg.includes('❌') ? '#f85149' : '#7ee787', marginTop: '10px', fontWeight: 'bold' }}>{statusMsg}</p>}
+            </div>
         </motion.div>
     );
 };
