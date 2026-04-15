@@ -56,12 +56,12 @@ const mcqSets = [
             "printf(\"%d\", final_val);"
         ],
         questions: [
-            { q: "What is the output?\nint x = 10;\nint *p = &x;\n*p = 20;\nprintf(\"%d\", x);", options: ["A) 10", "B) 20", "C) Address of x", "D) Error"], correctIndex: 1 },
             { q: "What is the output?\na = [1, 2, 3]\nprint(a * 2)", options: ["A) [2, 4, 6]", "B) [1, 2, 3, 1, 2, 3]", "C) [1, 4, 9]", "D) Error"], correctIndex: 1 },
             { q: "Which keyword is used to transfer control from a function back to the calling function?", options: ["A) switch", "B) goto", "C) go back", "D) return"], correctIndex: 3 },
-            { q: "What will the function rewind() do?", options: ["A) Reposition to character reverse", "B) Reposition to end of file", "C) Reposition to beginning of line", "D) Reposition to beginning of file"], correctIndex: 3 },
             { q: "What do the 'c' and 'v' in argv stand for?", options: ["A) control / vector", "B) count / vertex", "C) count / vector", "D) configuration / visibility"], correctIndex: 2 },
+            { q: "What command is used to remove files in Linux?", options: ["A) dm", "B) rm", "C) delete", "D) erase"], correctIndex: 1 },
             { q: "What is the output?\nx = \"5\"\nprint(x * 3)", options: ["A) 15", "B) 555", "C) Error", "D) 5*3"], correctIndex: 1 },
+            { q: "What is the result of the following expression in C?\nint result = 5 + 10 / 2 * 3;", options: ["A) 22.5", "B) 20", "C) 15", "D) 25"], correctIndex: 1 },
             { q: "Study the sequence of symbols. Which figure logically follows the pattern?", options: ["1", "2", "3", "4", "5"], correctIndex: 3, image: "/15.jpeg" },
             { q: "Study the family tree and relate the final person to B.", options: ["a", "b", "c", "d"], correctIndex: 1, image: "/7.jpeg" },
             { q: "Which number replaces the question mark in the circle pattern?", options: ["A", "B", "C", "D"], correctIndex: 1, image: "/1.jpeg" },
@@ -124,11 +124,11 @@ const mcqSets = [
             "print(result)"
         ],
         questions: [
-            { q: "What is the output?\nString s1 = \"ACUMEN\";\nString s2 = new String(\"ACUMEN\");\nString s3 = s2.intern();\nSystem.out.println((s1 == s2) + \" \" + (s1 == s3));", options: ["A) true true", "B) false false", "C) true false", "D) false true"], correctIndex: 3 },
             { q: "What is the output?\nint arr[] = {10, 20, 30, 40, 50};\nint *p = arr;\nprintf(\"%d\", *(p + 3) - *(p + 1));", options: ["A) 10", "B) 20", "C) 30", "D) Error"], correctIndex: 1 },
-            { q: "What is the output?\ndef add_item(item, box=[]):\n    box.append(item)\n    return box\nprint(add_item(1), end=' ')\nprint(add_item(2))", options: ["A) [1] [2]", "B) [1] [1]", "C) [1] [1, 2]", "D) Error"], correctIndex: 2 },
             { q: "Which of the following is true about the WHERE and HAVING clauses?", options: ["A) They are interchangeable", "B) WHERE filters after aggregation", "C) WHERE filters before aggregation, HAVING after", "D) HAVING only for SELECT"], correctIndex: 2 },
             { q: "What happens?\nclass Test {\n    static int x = 10;\n}\nTest obj = null;\nSystem.out.println(obj.x);", options: ["A) NullPointerException", "B) Prints 10", "C) Compilation Error", "D) Prints 0"], correctIndex: 1 },
+            { q: "What is the output?\nx = 10\ndef func():\n    x = 20\nfunc()\nprint(x)", options: ["A) 20", "B) 10", "C) None", "D) Error"], correctIndex: 1 },
+            { q: "Which join returns all rows from the left table and matched rows from the right, with NULLs for no match?", options: ["A) Inner Join", "B) Left Join", "C) Right Join", "D) Full Join"], correctIndex: 1 },
             { q: "In Python:\na=256, b=256\nx=257, y=257\nWhat is true for: (a is b) and (x is y)?", options: ["A) True True", "B) False False", "C) True False", "D) Error"], correctIndex: 2 },
             { q: "Which number replaces the question mark in the circle pattern?", options: ["A", "B", "C", "D"], correctIndex: 1, image: "/1.jpeg" },
             { q: "Find the missing value in the matrix pattern.", options: ["24", "28", "32", "36"], correctIndex: 2, image: "/10.jpeg" },
