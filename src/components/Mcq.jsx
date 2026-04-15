@@ -22,12 +22,12 @@ const mcqSets = [
             "print(int(f))"
         ],
         questions: [
-            { q: "In Python, which operator is used for 'Floor Division'?", options: ["A) /", "B) //", "C) %", "D) **"], correctIndex: 1 },
-            { q: "What is the output of print(2 ** 3)?", options: ["A) 6", "B) 5", "C) 8", "D) 9"], correctIndex: 2 },
-            { q: "Which of these is a valid variable name in Python?", options: ["A) 2_var", "B) my-var", "C) my_var", "D) class"], correctIndex: 2 },
-            { q: "What is the result of 10 % 3?", options: ["A) 3", "B) 1", "C) 0", "D) 3.33"], correctIndex: 1 },
-            { q: "Which function is used to get the length of a list or string?", options: ["A) size()", "B) count()", "C) length()", "D) len()"], correctIndex: 3 },
-            { q: "Which of these is NOT a Python built-in data type?", options: ["A) list", "B) set", "C) array", "D) tuple"], correctIndex: 2 },
+            { q: "What is the output?\nint x = 10;\nint *p = &x;\n*p = 20;\nprintf(\"%d\", x);", options: ["A) 10", "B) 20", "C) Address of x", "D) Error"], correctIndex: 1 },
+            { q: "What is the output?\na = [1, 2, 3]\nprint(a * 2)", options: ["A) [2, 4, 6]", "B) [1, 2, 3, 1, 2, 3]", "C) [1, 4, 9]", "D) Error"], correctIndex: 1 },
+            { q: "Which keyword is used to transfer control from a function back to the calling function?", options: ["A) switch", "B) goto", "C) go back", "D) return"], correctIndex: 3 },
+            { q: "What will the function rewind() do?", options: ["A) Reposition to character reverse", "B) Reposition to end of file", "C) Reposition to beginning of line", "D) Reposition to beginning of file"], correctIndex: 3 },
+            { q: "What do the 'c' and 'v' in argv stand for?", options: ["A) control / vector", "B) count / vertex", "C) count / vector", "D) configuration / visibility"], correctIndex: 2 },
+            { q: "What is the output?\nx = \"5\"\nprint(x * 3)", options: ["A) 15", "B) 555", "C) Error", "D) 5*3"], correctIndex: 1 },
             { q: "Study the sunrise/shadow problem in the image. Which direction is Udai facing?", options: ["A", "B", "C", "D"], correctIndex: 2, image: "/4.jpeg" },
             { q: "Study the logic in the image. What is the missing number?", options: ["A", "B", "C", "D"], correctIndex: 3, image: "/5.jpeg" },
             { q: "Arrange the words shown into a meaningful sequence.", options: ["A", "B", "C", "D"], correctIndex: 2, image: "/2.jpeg" },
@@ -56,12 +56,12 @@ const mcqSets = [
             "printf(\"%d\", final_val);"
         ],
         questions: [
-            { q: "Which format specifier is used to print an integer in C?", options: ["A) %f", "B) %c", "C) %d", "D) %s"], correctIndex: 2 },
-            { q: "What is the size of an int data type in most 32-bit systems?", options: ["A) 1 Byte", "B) 2 Bytes", "C) 4 Bytes", "D) 8 Bytes"], correctIndex: 2 },
-            { q: "How do you start a single-line comment in C?", options: ["A) #", "B) //", "C) /*", "D) --"], correctIndex: 1 },
-            { q: "Which of these is the 'Address of' operator in C?", options: ["A) *", "B) &", "C) %", "D) $"], correctIndex: 1 },
-            { q: "What is the value of 5 + 2 * 3 in C?", options: ["A) 21", "B) 11", "C) 10", "D) 15"], correctIndex: 1 },
-            { q: "Which of the following is used to terminate a loop in C?", options: ["A) stop", "B) break", "C) exit", "D) return"], correctIndex: 1 },
+            { q: "What is the output?\nint x = 10;\nint *p = &x;\n*p = 20;\nprintf(\"%d\", x);", options: ["A) 10", "B) 20", "C) Address of x", "D) Error"], correctIndex: 1 },
+            { q: "What is the output?\na = [1, 2, 3]\nprint(a * 2)", options: ["A) [2, 4, 6]", "B) [1, 2, 3, 1, 2, 3]", "C) [1, 4, 9]", "D) Error"], correctIndex: 1 },
+            { q: "Which keyword is used to transfer control from a function back to the calling function?", options: ["A) switch", "B) goto", "C) go back", "D) return"], correctIndex: 3 },
+            { q: "What will the function rewind() do?", options: ["A) Reposition to character reverse", "B) Reposition to end of file", "C) Reposition to beginning of line", "D) Reposition to beginning of file"], correctIndex: 3 },
+            { q: "What do the 'c' and 'v' in argv stand for?", options: ["A) control / vector", "B) count / vertex", "C) count / vector", "D) configuration / visibility"], correctIndex: 2 },
+            { q: "What is the output?\nx = \"5\"\nprint(x * 3)", options: ["A) 15", "B) 555", "C) Error", "D) 5*3"], correctIndex: 1 },
             { q: "Study the sequence of symbols. Which figure logically follows the pattern?", options: ["1", "2", "3", "4", "5"], correctIndex: 3, image: "/15.jpeg" },
             { q: "Study the family tree and relate the final person to B.", options: ["a", "b", "c", "d"], correctIndex: 1, image: "/7.jpeg" },
             { q: "Which number replaces the question mark in the circle pattern?", options: ["A", "B", "C", "D"], correctIndex: 1, image: "/1.jpeg" },
@@ -90,12 +90,12 @@ const mcqSets = [
             "printf(\"%d\", final_out);"
         ],
         questions: [
-            { q: "What is the value of x after: int x = 5; int y = x++;?", options: ["A) 6", "B) 5", "C) 4", "D) 7"], correctIndex: 1 },
-            { q: "Which of these is the 'Dereference' operator in C?", options: ["A) &", "B) #", "C) *", "D) @"], correctIndex: 2 },
-            { q: "In C, what does 5 / 2 evaluate to?", options: ["A) 2.5", "B) 2", "C) 3", "D) 0"], correctIndex: 1 },
-            { q: "Which header file is required for malloc()?", options: ["A) stdio.h", "B) conio.h", "C) stdlib.h", "D) math.h"], correctIndex: 2 },
-            { q: "What is the size of a char in C?", options: ["A) 1 Byte", "B) 2 Bytes", "C) 4 Bytes", "D) 8 Bytes"], correctIndex: 0 },
-            { q: "What is the output of: int a=10, b=20; a=a+b; b=a-b; a=a-b; printf(\"%d %d\", a, b);", options: ["A) 10 20", "B) 20 10", "C) 30 30", "D) 0 0"], correctIndex: 1 },
+            { q: "What is the output?\nString s1 = \"ACUMEN\";\nString s2 = new String(\"ACUMEN\");\nString s3 = s2.intern();\nSystem.out.println((s1 == s2) + \" \" + (s1 == s3));", options: ["A) true true", "B) false false", "C) true false", "D) false true"], correctIndex: 3 },
+            { q: "What is the output?\nint arr[] = {10, 20, 30, 40, 50};\nint *p = arr;\nprintf(\"%d\", *(p + 3) - *(p + 1));", options: ["A) 10", "B) 20", "C) 30", "D) Error"], correctIndex: 1 },
+            { q: "What is the output?\ndef add_item(item, box=[]):\n    box.append(item)\n    return box\nprint(add_item(1), end=' ')\nprint(add_item(2))", options: ["A) [1] [2]", "B) [1] [1]", "C) [1] [1, 2]", "D) Error"], correctIndex: 2 },
+            { q: "Which of the following is true about the WHERE and HAVING clauses?", options: ["A) They are interchangeable", "B) WHERE filters after aggregation", "C) WHERE filters before aggregation, HAVING after", "D) HAVING only for SELECT"], correctIndex: 2 },
+            { q: "What happens?\nclass Test {\n    static int x = 10;\n}\nTest obj = null;\nSystem.out.println(obj.x);", options: ["A) NullPointerException", "B) Prints 10", "C) Compilation Error", "D) Prints 0"], correctIndex: 1 },
+            { q: "In Python:\na=256, b=256\nx=257, y=257\nWhat is true for: (a is b) and (x is y)?", options: ["A) True True", "B) False False", "C) True False", "D) Error"], correctIndex: 2 },
             { q: "Find the missing number in the logic sequence provided.", options: ["A", "B", "C", "D"], correctIndex: 3, image: "/5.jpeg" },
             { q: "Study the family tree and relate the final person to B.", options: ["a", "b", "c", "d"], correctIndex: 1, image: "/7.jpeg" },
             { q: "Study the sequence of symbols. Which figure logically follows the pattern?", options: ["1", "2", "3", "4", "5"], correctIndex: 3, image: "/15.jpeg" },
@@ -124,12 +124,12 @@ const mcqSets = [
             "print(result)"
         ],
         questions: [
-            { q: "In Python, what value is list[-1] if list = [10, 20, 30]?", options: ["A) 10", "B) 20", "C) 30", "D) Error"], correctIndex: 2 },
-            { q: "What is the output of bool(\"\") in Python?", options: ["A) True", "B) False", "C) None", "D) 0"], correctIndex: 1 },
-            { q: "What is the result of 3 * 3 + 3?", options: ["A) 18", "B) 9", "C) 12", "D) 27"], correctIndex: 2 },
-            { q: "Which keyword is used to handle exceptions in Python?", options: ["A) catch", "B) except", "C) error", "D) try"], correctIndex: 1 },
-            { q: "What does range(5) generate?", options: ["A) 1 to 5", "B) 0 to 4", "C) 0 to 5", "D) 1 to 4"], correctIndex: 1 },
-            { q: "What is the output of 'hello'[::-1] in Python?", options: ["A) hello", "B) olleh", "C) h", "D) error"], correctIndex: 1 },
+            { q: "What is the output?\nString s1 = \"ACUMEN\";\nString s2 = new String(\"ACUMEN\");\nString s3 = s2.intern();\nSystem.out.println((s1 == s2) + \" \" + (s1 == s3));", options: ["A) true true", "B) false false", "C) true false", "D) false true"], correctIndex: 3 },
+            { q: "What is the output?\nint arr[] = {10, 20, 30, 40, 50};\nint *p = arr;\nprintf(\"%d\", *(p + 3) - *(p + 1));", options: ["A) 10", "B) 20", "C) 30", "D) Error"], correctIndex: 1 },
+            { q: "What is the output?\ndef add_item(item, box=[]):\n    box.append(item)\n    return box\nprint(add_item(1), end=' ')\nprint(add_item(2))", options: ["A) [1] [2]", "B) [1] [1]", "C) [1] [1, 2]", "D) Error"], correctIndex: 2 },
+            { q: "Which of the following is true about the WHERE and HAVING clauses?", options: ["A) They are interchangeable", "B) WHERE filters after aggregation", "C) WHERE filters before aggregation, HAVING after", "D) HAVING only for SELECT"], correctIndex: 2 },
+            { q: "What happens?\nclass Test {\n    static int x = 10;\n}\nTest obj = null;\nSystem.out.println(obj.x);", options: ["A) NullPointerException", "B) Prints 10", "C) Compilation Error", "D) Prints 0"], correctIndex: 1 },
+            { q: "In Python:\na=256, b=256\nx=257, y=257\nWhat is true for: (a is b) and (x is y)?", options: ["A) True True", "B) False False", "C) True False", "D) Error"], correctIndex: 2 },
             { q: "Which number replaces the question mark in the circle pattern?", options: ["A", "B", "C", "D"], correctIndex: 1, image: "/1.jpeg" },
             { q: "Find the missing value in the matrix pattern.", options: ["24", "28", "32", "36"], correctIndex: 2, image: "/10.jpeg" },
             { q: "Study the family tree and relate the final person to B.", options: ["a", "b", "c", "d"], correctIndex: 1, image: "/7.jpeg" },
@@ -150,13 +150,14 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
     const [attempts, setAttempts] = useState({});
     const [isComplete, setIsComplete] = useState(false);
     const [showPenaltyToast, setShowPenaltyToast] = useState(false);
+    const [lastPenalty, setLastPenalty] = useState(0);
 
     useEffect(() => {
         let pool = [];
-        const rollNo = teamData?.members?.[0]?.rollNo || "";
-        const is25 = /1602-25-/i.test(rollNo);
+        const studyYear = teamData?.year || 1;
+        const isFirstYear = studyYear === 1;
         
-        if (is25) {
+        if (isFirstYear) {
             pool = [mcqSets[0], mcqSets[1]]; // Set 1 & 2
         } else {
             pool = [mcqSets[2], mcqSets[3]]; // Set 3 & 4
@@ -190,8 +191,13 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
             el.classList.add('incorrect');
             setTimeout(() => el.classList.remove('incorrect'), 1000);
 
-            // Add 10s penalty for every wrong click
-            if (onPenalty) onPenalty(10);
+            // Progressive penalty: 20s, 40s, 60s
+            let penalty = 20;
+            if (currentAttempts === 2) penalty = 40;
+            else if (currentAttempts >= 3) penalty = 60;
+            
+            setLastPenalty(penalty);
+            if (onPenalty) onPenalty(penalty);
             setShowPenaltyToast(true);
             setTimeout(() => setShowPenaltyToast(false), 2000);
         }
@@ -273,7 +279,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                         letterSpacing: '1px'
                     }}
                 >
-                    ⚠️ PENALTY: +10s
+                    ⚠️ PENALTY: +{lastPenalty}s
                 </motion.div>
             )}
             
@@ -285,7 +291,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                     </p>
                     {mcqSet.questions.map((q, qIndex) => (
                         <div key={qIndex} className="mcq-card" style={{ marginBottom: '30px', padding: '20px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                            <h4 style={{ margin: '0 0 15px 0', fontSize: '1.2rem', color: '#00e5ff', fontFamily: 'Rajdhani, sans-serif' }}>{qIndex + 1}. {q.q}</h4>
+                            <h4 style={{ margin: '0 0 15px 0', fontSize: '1.2rem', color: '#00e5ff', fontFamily: 'Rajdhani, sans-serif', whiteSpace: 'pre-wrap' }}>{qIndex + 1}. {q.q}</h4>
                             
                             {q.image && (
                                 <div style={{ marginBottom: '20px', textAlign: 'center', background: 'rgba(0,0,0,0.3)', padding: '15px', borderRadius: '8px', border: '1px solid rgba(0, 229, 255, 0.1)' }}>

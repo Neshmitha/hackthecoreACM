@@ -6,6 +6,7 @@ const Registration = ({ onComplete }) => {
     const [teamSize, setTeamSize] = useState('');
     const [members, setMembers] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [year, setYear] = useState('1');
 
     const handleSizeChange = (e) => {
         const size = parseInt(e.target.value) || 0;
@@ -34,7 +35,8 @@ const Registration = ({ onComplete }) => {
         onComplete({ 
             teamName, 
             teamSize: parseInt(teamSize), 
-            members 
+            members,
+            year: parseInt(year)
         });
     };
 
@@ -72,6 +74,25 @@ const Registration = ({ onComplete }) => {
                         placeholder="Enter number of members"
                         className="modern-input"
                     />
+                </div>
+
+                <div className="form-group">
+                    <label>Year of Study:</label>
+                    <div style={{ display: 'flex', gap: '20px', marginTop: '10px', flexWrap: 'wrap' }}>
+                        {[1, 2, 3].map((y) => (
+                            <label key={y} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#fff' }}>
+                                <input 
+                                    type="radio" 
+                                    name="year" 
+                                    value={y.toString()} 
+                                    checked={year === y.toString()} 
+                                    onChange={(e) => setYear(e.target.value)}
+                                    style={{ accentColor: '#00e5ff' }}
+                                /> 
+                                {y}{y === 1 ? 'st' : y === 2 ? 'nd' : 'rd'} Year
+                            </label>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="members-grid">
