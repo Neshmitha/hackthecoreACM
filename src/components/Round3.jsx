@@ -64,9 +64,8 @@ const Round3 = ({ teamData, onComplete }) => {
     const [editValue, setEditValue] = useState('');
 
     useEffect(() => {
-        const rollNo = teamData?.members?.[0]?.rollNo || "";
-        const is25 = /1602-25-/i.test(rollNo);
-        const selected = is25 ? mcqSets.setA : mcqSets.setB;
+        const year = teamData?.year || 1;
+        const selected = (year === 1) ? mcqSets.setA : mcqSets.setB;
 
         setChallenge(selected);
         const shuffled = [...selected.blocks].sort(() => Math.random() - 0.5);
