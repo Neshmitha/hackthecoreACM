@@ -39,7 +39,7 @@ function App() {
       member2: data.members[1] ? `${data.members[1].name} (${data.members[1].rollNo})` : 'N/A'
     });
 
-    setCurrentRound('round1');
+    setCurrentRound('round2');
   };
 
   const handleRound1Complete = (passkey) => {

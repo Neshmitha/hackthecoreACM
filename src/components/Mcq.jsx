@@ -145,7 +145,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
     const [answers, setAnswers] = useState([]);
     const [passkeyInput, setPasskeyInput] = useState('');
     const [entryPasskeyInput, setEntryPasskeyInput] = useState('');
-    const [isUnlocked, setIsUnlocked] = useState(false);
+    const [isUnlocked, setIsUnlocked] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');
     const [attempts, setAttempts] = useState({});
     const [isComplete, setIsComplete] = useState(false);
@@ -230,7 +230,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
             >
-                <h2 className="neon-text">Round 2 Locked 🔒</h2>
+                <h2 className="neon-text">Round 1 Locked 🔒</h2>
                 <p style={{ marginBottom: '20px' }}>To start the MCQs, please enter the Entry Passkey (the word you unscrambled in Round 1):</p>
                 <input 
                     type="text" 
@@ -240,7 +240,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                     onChange={(e) => setEntryPasskeyInput(e.target.value)}
                     style={{ marginBottom: '20px', textAlign: 'center' }}
                 />
-                <button className="registration-action-btn" onClick={handleEntrySubmit}>Unlock Round 2 🔓</button>
+                <button className="registration-action-btn" onClick={handleEntrySubmit}>Unlock Round 1 🔓</button>
                 {errorMsg && <p style={{ color: '#f44336', marginTop: '10px' }}>{errorMsg}</p>}
             </motion.div>
         );
@@ -256,7 +256,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <h2 className="neon-text" style={{ textAlign: 'center', marginBottom: '30px' }}>Round 2</h2>
+            <h2 className="neon-text" style={{ textAlign: 'center', marginBottom: '30px' }}>Round 1</h2>
 
             {showPenaltyToast && (
                 <motion.div 
@@ -390,7 +390,7 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                     onChange={(e) => setPasskeyInput(e.target.value)}
                                     style={{ margin: 0, flex: 1, textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold' }}
                                 />
-                                <button className="registration-action-btn" style={{ margin: 0, padding: '0 25px' }} onClick={handlePasskeySubmit}>Unlock Round 3</button>
+                                <button className="registration-action-btn" style={{ margin: 0, padding: '0 25px' }} onClick={handlePasskeySubmit}>Unlock Round 2</button>
                             </div>
                             {errorMsg && <p style={{ color: '#f85149', marginTop: '10px', fontSize: '0.9rem', fontWeight: 'bold' }}>{errorMsg}</p>}
                         </motion.div>

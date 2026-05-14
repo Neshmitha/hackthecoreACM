@@ -11,7 +11,7 @@ const Registration = ({ onComplete }) => {
     const handleSizeChange = (e) => {
         const size = parseInt(e.target.value) || 0;
         setTeamSize(e.target.value);
-        if (size > 0 && size <= 2) {
+        if (size > 0 && size <= 1) {
             const newMembers = Array(size).fill({ name: '', rollNo: '' });
             for (let i = 0; i < Math.min(size, members.length); i++) {
                 newMembers[i] = members[i];
@@ -69,7 +69,7 @@ const Registration = ({ onComplete }) => {
                         type="number"
                         value={teamSize}
                         onChange={handleSizeChange}
-                        min="1" max="2"
+                        min="1" max="1"
                         required
                         placeholder="Enter number of members"
                         className="modern-input"
