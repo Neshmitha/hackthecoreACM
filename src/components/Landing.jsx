@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const Landing = ({ onStart }) => {
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    const [isTimeUp, setIsTimeUp] = useState(false);
+
+    useEffect(() => {
+        const targetDate = new Date('2026-05-18T19:00:00+05:30').getTime();
+        
+        const updateTimer = () => {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                setIsTimeUp(true);
+                return;
+            }
+
+            setTimeLeft({
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((difference % (1000 * 60)) / 1000)
+            });
+        };
+
+        updateTimer();
+        const interval = setInterval(updateTimer, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="landing-container">
             <div className="hero-section">
@@ -24,19 +52,44 @@ const Landing = ({ onStart }) => {
                     transition={{ duration: 1.5 }}
                 >
                     <div className="landing-actions">
-                        <motion.button
-                            id="enter-btn"
-                            className="glow-btn"
-                            whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(0, 229, 255, 0.8)" }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={onStart}
-                            initial={{ scale: 0.8 }}
-                            animate={{ scale: 1 }}
-                        >
-                            Start Game
-                        </motion.button>
-
-
+                        {isTimeUp ? (
+                            <motion.button
+                                id="enter-btn"
+                                className="glow-btn"
+                                whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(0, 229, 255, 0.8)" }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={onStart}
+                                initial={{ scale: 0.8 }}
+                                animate={{ scale: 1 }}
+                            >
+                                Start Game
+                            </motion.button>
+                        ) : (
+                            <div className="countdown-container" style={{ background: 'rgba(0,0,0,0.6)', padding: '1.5rem', borderRadius: '15px', border: '1px solid rgba(0, 229, 255, 0.3)', backdropFilter: 'blur(10px)' }}>
+                                <h2 className="neon-text" style={{ fontSize: '1.8rem', marginBottom: '1.5rem', textAlign: 'center', letterSpacing: '2px' }}>GAME STARTS IN</h2>
+                                <div style={{ display: 'flex', gap: '1.5rem', color: 'white', fontSize: '2.5rem', fontWeight: 'bold', justifyContent: 'center' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
+                                        <span style={{ textShadow: '0 0 10px rgba(0, 229, 255, 0.8)' }}>{timeLeft.days.toString().padStart(2, '0')}</span>
+                                        <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#00e5ff', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '5px' }}>Days</span>
+                                    </div>
+                                    <span style={{ color: '#00e5ff' }}>:</span>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
+                                        <span style={{ textShadow: '0 0 10px rgba(0, 229, 255, 0.8)' }}>{timeLeft.hours.toString().padStart(2, '0')}</span>
+                                        <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#00e5ff', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '5px' }}>Hrs</span>
+                                    </div>
+                                    <span style={{ color: '#00e5ff' }}>:</span>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
+                                        <span style={{ textShadow: '0 0 10px rgba(0, 229, 255, 0.8)' }}>{timeLeft.minutes.toString().padStart(2, '0')}</span>
+                                        <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#00e5ff', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '5px' }}>Mins</span>
+                                    </div>
+                                    <span style={{ color: '#00e5ff' }}>:</span>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
+                                        <span style={{ textShadow: '0 0 10px rgba(0, 229, 255, 0.8)' }}>{timeLeft.seconds.toString().padStart(2, '0')}</span>
+                                        <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#00e5ff', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '5px' }}>Secs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </motion.div>
             </div>
