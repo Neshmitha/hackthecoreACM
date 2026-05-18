@@ -82,17 +82,9 @@ const firstYearQuestions = [
 int b = 4;
 int c = 2;
 int d = 10;
-
-// Step 1: Modulo (remainder) and multiplication
 a = d % 3;       
-
-// Step 2: Math shortcut operator
 b += a;          
-
-// Step 3: Math order of operations
 c = d - b * a;   
-
-// Step 4: A small loop that runs a few times
 for (int i = 0; i < 3; i++) {
     d--;
 }`,
@@ -103,12 +95,12 @@ for (int i = 0; i < 3; i++) {
             { id: "D", text: "The final value of d" }
         ],
         rightItems: [
-            { id: "1", text: "0" },
-            { id: "2", text: "1" },
-            { id: "3", text: "7" },
+            { id: "1", text: "1" },
+            { id: "2", text: "7" },
+            { id: "3", text: "0" },
             { id: "4", text: "5" }
         ],
-        correctMapping: { A: "2", B: "4", C: "4", D: "3" }
+        correctMapping: { A: "3", B: "1", C: "2", D: "4" }
     }
 ];
 
@@ -165,7 +157,7 @@ const seniorQuestions = [
             { id: "3", text: "O(n) (Degrades to linear sequence)" },
             { id: "4", text: "O(n) (Must traverse element-by-element)" }
         ],
-        correctMapping: { A: "3", B: "4", C: "1", D: "2" } 
+        correctMapping: { A: "3", B: "4", C: "1", D: "2" }
     },
     {
         id: 4,
@@ -232,15 +224,15 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [entryPasskeyInput, setEntryPasskeyInput] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
-    
+
     const [currentQIndex, setCurrentQIndex] = useState(0);
     const [mappings, setMappings] = useState({}); // { leftId: rightId }
     const [draggedItem, setDraggedItem] = useState(null); // rightId being dragged
-    
+
     const [showPenaltyToast, setShowPenaltyToast] = useState(false);
     const [attempts, setAttempts] = useState(0);
     const [isChecking, setIsChecking] = useState(false);
-    
+
     const isFirstYear = teamData?.year === 1;
     const questionsSet = isFirstYear ? firstYearQuestions : seniorQuestions;
     const q = questionsSet[currentQIndex];
@@ -319,16 +311,16 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         } else {
             setIsChecking(false);
             setErrorMsg("Some matches are incorrect. Please try again.");
-            
+
             const currentAttempts = attempts + 1;
             setAttempts(currentAttempts);
-            
+
             let penalty = 20;
             if (currentAttempts === 2) penalty = 40;
             else if (currentAttempts >= 3) penalty = 60;
-            
+
             if (onPenalty) onPenalty(penalty);
-            
+
             setShowPenaltyToast(penalty);
             setTimeout(() => setShowPenaltyToast(false), 2000);
         }
@@ -336,17 +328,17 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
 
     if (!isUnlocked) {
         return (
-            <motion.div 
-                className="glass-card flex-center" 
+            <motion.div
+                className="glass-card flex-center"
                 style={{ maxWidth: '400px', margin: '100px auto', textAlign: 'center' }}
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
             >
                 <h2 className="neon-text">Round 2 Locked 🔒</h2>
                 <p style={{ marginBottom: '20px' }}>To start Round 2, please enter the Passkey revealed in Round 1:</p>
-                <input 
-                    type="text" 
-                    className="modern-input" 
+                <input
+                    type="text"
+                    className="modern-input"
                     placeholder="Enter Round 1 Passkey"
                     value={entryPasskeyInput}
                     onChange={(e) => setEntryPasskeyInput(e.target.value)}
@@ -371,9 +363,9 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
             transition={{ duration: 0.5 }}
         >
             <h2 className="neon-text" style={{ textAlign: 'center', marginBottom: '10px' }}>Round 2: Code Matcher</h2>
-            
+
             {showPenaltyToast && (
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, scale: 0.5, y: -20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     style={{
@@ -404,7 +396,7 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                 </div>
             ) : (
                 <AnimatePresence mode="wait">
-                    <motion.div 
+                    <motion.div
                         key={q.id}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -429,21 +421,21 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                 {q.leftItems.map(leftItem => {
                                     const matchedRightId = mappings[leftItem.id];
                                     const matchedRightItem = q.rightItems.find(r => r.id === matchedRightId);
-                                    
+
                                     return (
                                         <div key={leftItem.id} style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
-                                            <div style={{ 
-                                                flex: 1, 
-                                                background: 'rgba(255,255,255,0.05)', 
-                                                padding: '15px', 
-                                                borderRadius: '8px', 
+                                            <div style={{
+                                                flex: 1,
+                                                background: 'rgba(255,255,255,0.05)',
+                                                padding: '15px',
+                                                borderRadius: '8px',
                                                 border: '1px solid rgba(0, 229, 255, 0.2)',
                                                 fontFamily: 'Fira Code, monospace',
                                                 fontSize: '0.95rem'
                                             }}>
                                                 {leftItem.text}
                                             </div>
-                                            <div 
+                                            <div
                                                 onDrop={(e) => handleDrop(e, leftItem.id)}
                                                 onDragOver={handleDragOver}
                                                 onClick={() => matchedRightId && unmapItem(leftItem.id)}
@@ -476,7 +468,7 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                 <h4 style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '10px', marginBottom: '20px' }}>Descriptions (Drag these)</h4>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                     {availableRightItems.map(rightItem => (
-                                        <div 
+                                        <div
                                             key={rightItem.id}
                                             draggable
                                             onDragStart={(e) => handleDragStart(e, rightItem.id)}
@@ -509,8 +501,8 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
 
                         <div style={{ textAlign: 'center', marginTop: '40px' }}>
                             {errorMsg && <p style={{ color: '#f85149', marginBottom: '15px', fontWeight: 'bold' }}>{errorMsg}</p>}
-                            <button 
-                                className="registration-action-btn" 
+                            <button
+                                className="registration-action-btn"
                                 style={{ padding: '15px 50px', fontSize: '1.2rem' }}
                                 onClick={handleCheck}
                                 disabled={isChecking}
@@ -518,7 +510,7 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                 {isChecking ? 'Checking...' : 'Check Answers'}
                             </button>
                         </div>
-                        
+
                         <div style={{ textAlign: 'center', marginTop: '20px', color: '#8b949e' }}>
                             Question {currentQIndex + 1} of {questionsSet.length}
                         </div>
