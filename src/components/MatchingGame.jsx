@@ -250,7 +250,7 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
             setIsUnlocked(true);
             setErrorMsg("");
         } else {
-            setErrorMsg("Incorrect Entry Passkey. Please use the word you unscrambled!");
+            setErrorMsg("Incorrect Passkey. Please solve Round 1 correctly!");
         }
     };
 
@@ -342,12 +342,12 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
             >
-                <h2 className="neon-text">Round 1 Locked 🔒</h2>
-                <p style={{ marginBottom: '20px' }}>To start Round 2, please enter the Entry Passkey (the word you unscrambled in Round 1):</p>
+                <h2 className="neon-text">Round 2 Locked 🔒</h2>
+                <p style={{ marginBottom: '20px' }}>To start Round 2, please enter the Passkey revealed in Round 1:</p>
                 <input 
                     type="text" 
                     className="modern-input" 
-                    placeholder="Enter Unscrambled Word"
+                    placeholder="Enter Round 1 Passkey"
                     value={entryPasskeyInput}
                     onChange={(e) => setEntryPasskeyInput(e.target.value)}
                     style={{ marginBottom: '20px', textAlign: 'center' }}

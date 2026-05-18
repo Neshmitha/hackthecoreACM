@@ -144,8 +144,6 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
     const [mcqSet, setMcqSet] = useState(null);
     const [answers, setAnswers] = useState([]);
     const [passkeyInput, setPasskeyInput] = useState('');
-    const [entryPasskeyInput, setEntryPasskeyInput] = useState('');
-    const [isUnlocked, setIsUnlocked] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');
     const [attempts, setAttempts] = useState({});
     const [isComplete, setIsComplete] = useState(false);
@@ -203,48 +201,15 @@ const Mcq = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         }
     };
 
-    const handleEntrySubmit = () => {
-        if (entryPasskeyInput.trim().toUpperCase() === round1Passkey.trim().toUpperCase()) {
-            setIsUnlocked(true);
-            setErrorMsg("");
-        } else {
-            setErrorMsg("Incorrect Entry Passkey. Please use the word you unscrambled!");
-        }
-    };
-
     const handlePasskeySubmit = () => {
         if (passkeyInput.trim().toUpperCase() === mcqSet.finalPasskey.trim().toUpperCase()) {
-            onComplete();
+            onComplete(mcqSet.finalPasskey);
         } else {
             setErrorMsg("Incorrect passkey. Please solve the code correctly!");
         }
     };
 
     if (!mcqSet) return <div style={{ color: 'white', textAlign: 'center', padding: '50px' }}>Loading...</div>;
-
-    if (!isUnlocked) {
-        return (
-            <motion.div 
-                className="glass-card flex-center" 
-                style={{ maxWidth: '400px', margin: '100px auto', textAlign: 'center' }}
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-            >
-                <h2 className="neon-text">Round 1 Locked 🔒</h2>
-                <p style={{ marginBottom: '20px' }}>To start the MCQs, please enter the Entry Passkey (the word you unscrambled in Round 1):</p>
-                <input 
-                    type="text" 
-                    className="modern-input" 
-                    placeholder="Enter Unscrambled Word"
-                    value={entryPasskeyInput}
-                    onChange={(e) => setEntryPasskeyInput(e.target.value)}
-                    style={{ marginBottom: '20px', textAlign: 'center' }}
-                />
-                <button className="registration-action-btn" onClick={handleEntrySubmit}>Unlock Round 1 🔓</button>
-                {errorMsg && <p style={{ color: '#f44336', marginTop: '10px' }}>{errorMsg}</p>}
-            </motion.div>
-        );
-    }
 
     const allAnswered = answers.every(ans => ans === true);
 

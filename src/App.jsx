@@ -40,10 +40,7 @@ function App() {
       member2: data.members[1] ? `${data.members[1].name} (${data.members[1].rollNo})` : 'N/A'
     });
 
-    // Simulate completion of round1 immediately to record 0 time taken for it
-    sendUpdate({ action: 'updateRound', teamName: data.teamName, round: 'round1' });
-
-    setCurrentRound('round2');
+    setCurrentRound('round1');
   };
 
   const handleRound1Complete = (passkey) => {
@@ -88,7 +85,11 @@ function App() {
           )}
 
           {currentRound === 'round1' && (
-            <Crossword teamData={teamData} onComplete={handleRound1Complete} />
+            <Mcq 
+              teamData={teamData} 
+              onComplete={handleRound1Complete} 
+              onPenalty={handlePenalty}
+            />
           )}
 
           {currentRound === 'round2' && (
