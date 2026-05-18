@@ -252,9 +252,13 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         e.dataTransfer.setData("text/plain", rightId);
     };
 
+    const handleDragEnd = () => {
+        setDraggedItem(null);
+    };
+
     const handleDrop = (e, leftId) => {
         e.preventDefault();
-        const droppedId = e.dataTransfer.getData("text/plain") || draggedItem;
+        const droppedId = String(e.dataTransfer.getData("text/plain") || draggedItem || "").trim();
         if (droppedId) {
             setMappings(prev => ({
                 ...prev,
@@ -288,11 +292,12 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         setIsChecking(true);
         
         // Extract the user's sequence from top to bottom
-        const userSequence = q.leftItems.map(l => mappings[l.id]);
+        const userSequence = q.leftItems.map(l => String(mappings[l.id] || "").trim());
+        const expectedSequence = q.correctSequence.map(s => String(s).trim());
         
-        // Compare the user's sequence array strictly against the correctSequence array
-        const allCorrect = userSequence.length === q.correctSequence.length && 
-                           userSequence.every((val, index) => val === q.correctSequence[index]);
+        // Compare the user's sequence array strictly against the expected sequence
+        const allCorrect = userSequence.length === expectedSequence.length && 
+                           userSequence.every((val, index) => val === expectedSequence[index]);
 
         if (allCorrect) {
             setErrorMsg("");
@@ -474,6 +479,7 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                             key={rightItem.id}
                                             draggable
                                             onDragStart={(e) => handleDragStart(e, rightItem.id)}
+                                            onDragEnd={handleDragEnd}
                                             style={{
                                                 background: 'rgba(0, 229, 255, 0.05)',
                                                 border: '1px solid rgba(0, 229, 255, 0.4)',
