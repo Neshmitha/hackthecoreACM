@@ -6,6 +6,7 @@ import Mcq from './components/Mcq';
 import Round3 from './components/Round3';
 import GrandFinale from './components/GrandFinale';
 import MarketingReel from './components/MarketingReel';
+import MatchingGame from './components/MatchingGame';
 import './index.css';
 import { GOOGLE_SHEET_URL } from './config';
 
@@ -91,8 +92,8 @@ function App() {
           )}
 
           {currentRound === 'round2' && (
-            <Mcq 
-              teamData={teamData} 
+            <MatchingGame 
+              teamData={teamData}
               round1Passkey={round1Passkey} 
               onComplete={handleRound2Complete} 
               onPenalty={handlePenalty}
