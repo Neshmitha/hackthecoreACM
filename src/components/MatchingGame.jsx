@@ -357,8 +357,7 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         );
     }
 
-    const availableRightItems = q.rightItems.filter(r => !Object.values(mappings).includes(r.id));
-    // To make the layout dynamic, shuffle or just list them
+    // Keep all right items visible to prevent shifting, just grey out the mapped ones
     const isCompletedAll = isChecking && currentQIndex === questionsSet.length - 1 && errorMsg === '';
 
     return (
@@ -472,37 +471,36 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
 
                             {/* Right Side: Draggables */}
                             <div className="matching-right" style={{ background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <h4 style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '10px', marginBottom: '20px' }}>Descriptions (Drag these)</h4>
+                                <h4 style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '10px', marginBottom: '20px' }}>Options (Drag these)</h4>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                    {availableRightItems.map(rightItem => (
+                                    {q.rightItems.map(rightItem => {
+                                        const isMapped = Object.values(mappings).includes(rightItem.id);
+                                        return (
                                         <div
                                             key={rightItem.id}
-                                            draggable
-                                            onDragStart={(e) => handleDragStart(e, rightItem.id)}
+                                            draggable={!isMapped}
+                                            onDragStart={(e) => !isMapped && handleDragStart(e, rightItem.id)}
                                             onDragEnd={handleDragEnd}
                                             style={{
-                                                background: 'rgba(0, 229, 255, 0.05)',
-                                                border: '1px solid rgba(0, 229, 255, 0.4)',
+                                                background: isMapped ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 229, 255, 0.05)',
+                                                border: isMapped ? '1px dashed rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 229, 255, 0.4)',
                                                 padding: '15px',
                                                 borderRadius: '8px',
-                                                cursor: 'grab',
+                                                cursor: isMapped ? 'not-allowed' : 'grab',
                                                 fontSize: '0.95rem',
-                                                color: '#fff',
-                                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                                                color: isMapped ? 'rgba(255,255,255,0.3)' : '#fff',
+                                                boxShadow: isMapped ? 'none' : '0 4px 6px rgba(0,0,0,0.1)',
                                                 transition: 'transform 0.2s, background 0.2s',
-                                                userSelect: 'none'
+                                                userSelect: 'none',
+                                                opacity: isMapped ? 0.5 : 1
                                             }}
-                                            onMouseOver={(e) => e.currentTarget.style.background = 'rgba(0, 229, 255, 0.15)'}
-                                            onMouseOut={(e) => e.currentTarget.style.background = 'rgba(0, 229, 255, 0.05)'}
+                                            onMouseOver={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.15)' }}
+                                            onMouseOut={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.05)' }}
                                         >
+                                            <strong style={{ color: isMapped ? 'rgba(255,255,255,0.3)' : '#00e5ff', marginRight: '10px' }}>{rightItem.id})</strong>
                                             {rightItem.text}
                                         </div>
-                                    ))}
-                                    {availableRightItems.length === 0 && (
-                                        <div style={{ textAlign: 'center', color: '#8b949e', fontStyle: 'italic', marginTop: '20px' }}>
-                                            All items mapped. Click "Check Answers"!
-                                        </div>
-                                    )}
+                                    )})}
                                 </div>
                             </div>
                         </div>
