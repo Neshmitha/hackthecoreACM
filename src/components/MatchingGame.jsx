@@ -13,12 +13,12 @@ const firstYearQuestions = [
             { id: "D", text: "Inside the main() function, call your function by writing its name followed by ();" }
         ],
         rightItems: [
-            { id: "1", text: "Step 1: Define the function signature." },
-            { id: "2", text: "Step 2: Provide the input parameter brackets." },
-            { id: "3", text: "Step 3: Build the code block body." },
-            { id: "4", text: "Step 4: Execute/Trigger the function inside main." }
+            { id: "1", text: "Step 3: Build the code block body." },
+            { id: "2", text: "Step 1: Define the function signature." },
+            { id: "3", text: "Step 4: Execute/Trigger the function inside main." },
+            { id: "4", text: "Step 2: Provide the input parameter brackets." }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["2", "4", "1", "3"]
     },
     {
         id: 2,
@@ -31,12 +31,12 @@ const firstYearQuestions = [
             { id: "D", text: "The . (Dot operator)" }
         ],
         rightItems: [
-            { id: "1", text: "The blueprint or template that decides what information a Student card should hold." },
+            { id: "1", text: "A single piece of information inside the structure (like age or grade)." },
             { id: "2", text: "Creating one real, physical student card named s1 using the blueprint." },
-            { id: "3", text: "A single piece of information inside the structure (like age or grade)." },
-            { id: "4", text: "The actual dot symbol used to look inside the structure and grab a specific piece of data." }
+            { id: "3", text: "The actual dot symbol used to look inside the structure and grab a specific piece of data." },
+            { id: "4", text: "The blueprint or template that decides what information a Student card should hold." }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["4", "2", "1", "3"]
     },
     {
         id: 3,
@@ -49,12 +49,12 @@ const firstYearQuestions = [
             { id: "D", text: "*ptr = 20;" }
         ],
         rightItems: [
-            { id: "1", text: "Creating a special pointer variable that can hold the memory location of an integer." },
-            { id: "2", text: "The physical house number or GPS coordinate of where the variable lives in memory." },
-            { id: "3", text: "The 'Address-of' operator used to look up the location of any variable." },
-            { id: "4", text: "Go to the address written on the pointer map and change the value hidden inside it to 20." }
+            { id: "1", text: "Go to the address written on the pointer map and change the value hidden inside it to 20." },
+            { id: "2", text: "The 'Address-of' operator used to look up the location of any variable." },
+            { id: "3", text: "Creating a special pointer variable that can hold the memory location of an integer." },
+            { id: "4", text: "The physical house number or GPS coordinate of where the variable lives in memory." }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["3", "4", "2", "1"]
     },
     {
         id: 4,
@@ -67,12 +67,12 @@ const firstYearQuestions = [
             { id: "D", text: "'Out of Bounds' Error" }
         ],
         rightItems: [
-            { id: "1", text: "Create a row of 5 connected memory boxes that can each hold a whole number." },
-            { id: "2", text: "The specific locker number used to access an item (always starts at 0)." },
-            { id: "3", text: "Access and open the very first box in the row." },
-            { id: "4", text: "Accidentally trying to open a locker index that does not exist (e.g., locker 10 when you only have 5)." }
+            { id: "1", text: "The specific locker number used to access an item (always starts at 0)." },
+            { id: "2", text: "Accidentally trying to open a locker index that does not exist (e.g., locker 10 when you only have 5)." },
+            { id: "3", text: "Create a row of 5 connected memory boxes that can each hold a whole number." },
+            { id: "4", text: "Access and open the very first box in the row." }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["3", "1", "4", "2"]
     },
     {
         id: 5,
@@ -111,12 +111,12 @@ const seniorQuestions = [
             { id: "D", text: "Binary Search Tree" }
         ],
         rightItems: [
-            { id: "1", text: "Building the back-and-forth browser cache history navigation path." },
-            { id: "2", text: "Managing print job streams on a shared system where arrival sequence matters." },
-            { id: "3", text: "Designing the memory rollback and Undo (Ctrl+Z) state management engine." },
-            { id: "4", text: "Implementing autocomplete dictionaries or hierarchical folder indexes." }
+            { id: "1", text: "Implementing autocomplete dictionaries or hierarchical folder indexes." },
+            { id: "2", text: "Building the back-and-forth browser cache history navigation path." },
+            { id: "3", text: "Managing print job streams on a shared system where arrival sequence matters." },
+            { id: "4", text: "Designing the memory rollback and Undo (Ctrl+Z) state management engine." }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["2", "3", "4", "1"]
     },
     {
         id: 2,
@@ -129,12 +129,12 @@ const seniorQuestions = [
             { id: "D", text: "Greedy Method" }
         ],
         rightItems: [
-            { id: "1", text: "Breaking a problem down into overlapping subproblems and caching answers in a table." },
-            { id: "2", text: "Traversing a state-space branch, detecting a dead end, and explicitly reverting states to try alternative forks." },
-            { id: "3", text: "Using bounding functions to permanently prune suboptimal solution spaces early within optimization trees." },
-            { id: "4", text: "Making locally optimal choices sequentially at each step hoping it reaches global optimization." }
+            { id: "1", text: "Traversing a state-space branch, detecting a dead end, and explicitly reverting states to try alternative forks." },
+            { id: "2", text: "Making locally optimal choices sequentially at each step hoping it reaches global optimization." },
+            { id: "3", text: "Breaking a problem down into overlapping subproblems and caching answers in a table." },
+            { id: "4", text: "Using bounding functions to permanently prune suboptimal solution spaces early within optimization trees." }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["3", "1", "4", "2"]
     },
     {
         id: 3,
@@ -147,12 +147,12 @@ const seniorQuestions = [
             { id: "D", text: "Accessing the absolute n-th positional element in a Singly Linked List." }
         ],
         rightItems: [
-            { id: "1", text: "Worst-Case Time: O(1)" },
-            { id: "2", text: "Worst-Case Time: O(log n)" },
-            { id: "3", text: "Worst-Case Time: O(n) due to linear tree degradation" },
-            { id: "4", text: "Worst-Case Time: O(n) due to sequential traversal constraints" }
+            { id: "1", text: "Worst-Case Time: O(n) due to sequential traversal constraints" },
+            { id: "2", text: "Worst-Case Time: O(1)" },
+            { id: "3", text: "Worst-Case Time: O(log n)" },
+            { id: "4", text: "Worst-Case Time: O(n) due to linear tree degradation" }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["2", "3", "4", "1"]
     },
     {
         id: 4,
@@ -165,12 +165,12 @@ const seniorQuestions = [
             { id: "D", text: "Kruskal's Minimum Spanning Tree Execution" }
         ],
         rightItems: [
-            { id: "1", text: "Solved optimally using a Dynamic Programming table matrix." },
-            { id: "2", text: "Solved systematically by tracking configurations via Backtracking recursion paths." },
+            { id: "1", text: "Solved systematically by tracking configurations via Backtracking recursion paths." },
+            { id: "2", text: "Constructed greedily by processing sorted structural edge weights." },
             { id: "3", text: "Implemented sequentially using a First-In-First-Out Queue (Breadth-First Search)." },
-            { id: "4", text: "Constructed greedily by processing sorted structural edge weights." }
+            { id: "4", text: "Solved optimally using a Dynamic Programming table matrix." }
         ],
-        correctSequence: ["1", "2", "3", "4"]
+        correctSequence: ["4", "1", "3", "2"]
     },
     {
         id: 5,
