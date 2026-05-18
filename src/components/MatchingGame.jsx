@@ -78,26 +78,24 @@ const firstYearQuestions = [
         id: 5,
         title: "Question 5: The Grand Code Mystery",
         theme: "Track the numbers as they change line-by-line! Watch out for math rules, loops, and shortcut operators.",
-        codeSnippet: `int d = 8;
-int a = d % 4;       // Modulo
-int b = a + 1;       // Addition
-int c = d - 1;       // Subtraction
+        codeSnippet: `int a = 5;
+int b = 4;
+int c = 2;
+int d = 10;
+a = d % 3;       
+b += a;          
+c = d - b * a;   
 for (int i = 0; i < 3; i++) {
-    d--;             // Loop
+    d--;
 }`,
+        inputType: "text",
         leftItems: [
             { id: "A", text: "The final value of a" },
             { id: "B", text: "The final value of b" },
             { id: "C", text: "The final value of c" },
             { id: "D", text: "The final value of d" }
         ],
-        rightItems: [
-            { id: "1", text: "1" },
-            { id: "2", text: "7" },
-            { id: "3", text: "0" },
-            { id: "4", text: "5" }
-        ],
-        correctSequence: ["3", "1", "2", "4"]
+        correctTextAnswers: { A: "1", B: "5", C: "5", D: "7" }
     }
 ];
 
@@ -297,23 +295,49 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         });
     };
 
-    const handleCheck = () => {
-        // Ensure all are mapped
-        const allMapped = q.leftItems.every(l => mappings[l.id]);
-        if (!allMapped) {
-            setErrorMsg("Please match all items before checking.");
-            return;
-        }
+    const handleTextChange = (leftId, value) => {
+        setMappings(prev => ({
+            ...prev,
+            [leftId]: value
+        }));
+    };
 
-        setIsChecking(true);
-        
-        // Extract the user's sequence from top to bottom
-        const userSequence = q.leftItems.map(l => String(mappings[l.id] || "").trim());
-        const expectedSequence = q.correctSequence.map(s => String(s).trim());
-        
-        // Compare the user's sequence array strictly against the expected sequence
-        const allCorrect = userSequence.length === expectedSequence.length && 
-                           userSequence.every((val, index) => val === expectedSequence[index]);
+    const handleCheck = () => {
+        let allCorrect = true;
+
+        if (q.inputType === "text") {
+            const allMapped = q.leftItems.every(l => mappings[l.id] && String(mappings[l.id]).trim() !== "");
+            if (!allMapped) {
+                setErrorMsg("Please fill in all answers before checking.");
+                return;
+            }
+
+            setIsChecking(true);
+            q.leftItems.forEach((l) => {
+                const userVal = String(mappings[l.id] || "").trim();
+                const expected = q.correctTextAnswers[l.id];
+                if (userVal !== expected) {
+                    allCorrect = false;
+                }
+            });
+        } else {
+            // Ensure all are mapped
+            const allMapped = q.leftItems.every(l => mappings[l.id]);
+            if (!allMapped) {
+                setErrorMsg("Please match all items before checking.");
+                return;
+            }
+
+            setIsChecking(true);
+            
+            // Extract the user's sequence from top to bottom
+            const userSequence = q.leftItems.map(l => String(mappings[l.id] || "").trim());
+            const expectedSequence = q.correctSequence.map(s => String(s).trim());
+            
+            // Compare the user's sequence array strictly against the expected sequence
+            allCorrect = userSequence.length === expectedSequence.length && 
+                         userSequence.every((val, index) => val === expectedSequence[index]);
+        }
 
         if (allCorrect) {
             setErrorMsg("");
@@ -427,7 +451,9 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
                             <h3 style={{ color: '#00e5ff', fontSize: '1.5rem', marginBottom: '10px' }}>{q.title}</h3>
                             <p style={{ color: '#aaa', fontStyle: 'italic', maxWidth: '800px', margin: '0 auto' }}>💡 {q.theme}</p>
-                            <p style={{ marginTop: '10px', fontSize: '0.9rem', color: '#8b949e' }}>Drag options from the right and drop them next to the correct item on the left.</p>
+                            <p style={{ marginTop: '10px', fontSize: '0.9rem', color: '#8b949e' }}>
+                                {q.inputType === "text" ? "Type the correct output values in the input boxes below." : "Drag options from the right and drop them next to the correct item on the left."}
+                            </p>
                         </div>
 
                         {q.codeSnippet && (
@@ -436,13 +462,13 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                             </div>
                         )}
 
-                        <div className="matching-container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
+                        <div className="matching-container" style={{ display: 'grid', gridTemplateColumns: q.inputType === "text" ? '1fr' : '1fr 1fr', gap: '40px' }}>
                             {/* Left Side: Targets */}
                             <div className="matching-left">
                                 <h4 style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '10px', marginBottom: '20px' }}>Concepts / Code</h4>
                                 {q.leftItems.map(leftItem => {
                                     const matchedRightId = mappings[leftItem.id];
-                                    const matchedRightItem = q.rightItems.find(r => r.id === matchedRightId);
+                                    const matchedRightItem = q.rightItems ? q.rightItems.find(r => r.id === matchedRightId) : null;
 
                                     return (
                                         <div key={leftItem.id} style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
@@ -457,73 +483,98 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                             }}>
                                                 {leftItem.text}
                                             </div>
-                                            <div
-                                                draggable={!!matchedRightItem}
-                                                onDragStart={(e) => matchedRightId && handleDragStartLeft(e, leftItem.id, matchedRightId)}
-                                                onDragEnd={handleDragEnd}
-                                                onDrop={(e) => handleDrop(e, leftItem.id)}
-                                                onDragOver={handleDragOver}
-                                                onClick={() => matchedRightId && unmapItem(leftItem.id)}
-                                                style={{
-                                                    flex: 1.5,
-                                                    minHeight: '60px',
-                                                    background: matchedRightItem ? 'rgba(0, 229, 255, 0.1)' : 'rgba(0,0,0,0.3)',
-                                                    border: matchedRightItem ? '2px solid #00e5ff' : '2px dashed rgba(255,255,255,0.3)',
-                                                    borderRadius: '8px',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    padding: '10px',
-                                                    cursor: matchedRightItem ? 'grab' : 'default',
-                                                    transition: 'all 0.3s',
-                                                    color: matchedRightItem ? '#fff' : '#666',
-                                                    fontSize: '0.9rem',
-                                                    textAlign: 'center'
-                                                }}
-                                            >
-                                                {matchedRightItem ? (
-                                                    <span><strong style={{ color: '#00e5ff', marginRight: '5px' }}>{matchedRightItem.id})</strong> {matchedRightItem.text}</span>
-                                                ) : "Drop Here"}
-                                            </div>
+                                            
+                                            {q.inputType === "text" ? (
+                                                <input 
+                                                    type="text" 
+                                                    value={mappings[leftItem.id] || ''} 
+                                                    onChange={(e) => handleTextChange(leftItem.id, e.target.value)}
+                                                    placeholder="Enter value..."
+                                                    style={{
+                                                        flex: 1.5,
+                                                        background: 'rgba(0,0,0,0.3)',
+                                                        border: '2px solid rgba(255,255,255,0.3)',
+                                                        borderRadius: '8px',
+                                                        padding: '15px',
+                                                        color: '#fff',
+                                                        fontSize: '1rem',
+                                                        outline: 'none',
+                                                        transition: 'border-color 0.3s'
+                                                    }}
+                                                    onFocus={(e) => e.target.style.borderColor = '#00e5ff'}
+                                                    onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.3)'}
+                                                />
+                                            ) : (
+                                                <div
+                                                    draggable={!!matchedRightItem}
+                                                    onDragStart={(e) => matchedRightId && handleDragStartLeft(e, leftItem.id, matchedRightId)}
+                                                    onDragEnd={handleDragEnd}
+                                                    onDrop={(e) => handleDrop(e, leftItem.id)}
+                                                    onDragOver={handleDragOver}
+                                                    onClick={() => matchedRightId && unmapItem(leftItem.id)}
+                                                    style={{
+                                                        flex: 1.5,
+                                                        minHeight: '60px',
+                                                        background: matchedRightItem ? 'rgba(0, 229, 255, 0.1)' : 'rgba(0,0,0,0.3)',
+                                                        border: matchedRightItem ? '2px solid #00e5ff' : '2px dashed rgba(255,255,255,0.3)',
+                                                        borderRadius: '8px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        padding: '10px',
+                                                        cursor: matchedRightItem ? 'grab' : 'default',
+                                                        transition: 'all 0.3s',
+                                                        color: matchedRightItem ? '#fff' : '#666',
+                                                        fontSize: '0.9rem',
+                                                        textAlign: 'center'
+                                                    }}
+                                                >
+                                                    {matchedRightItem ? (
+                                                        <span><strong style={{ color: '#00e5ff', marginRight: '5px' }}>{matchedRightItem.id})</strong> {matchedRightItem.text}</span>
+                                                    ) : "Drop Here"}
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 })}
                             </div>
 
-                            {/* Right Side: Draggables */}
-                            <div className="matching-right" style={{ background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <h4 style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '10px', marginBottom: '20px' }}>Options (Drag these)</h4>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                    {q.rightItems.map(rightItem => {
-                                        const isMapped = Object.values(mappings).includes(rightItem.id);
-                                        return (
-                                        <div
-                                            key={rightItem.id}
-                                            draggable={!isMapped}
-                                            onDragStart={(e) => !isMapped && handleDragStartRight(e, rightItem.id)}
-                                            onDragEnd={handleDragEnd}
-                                            style={{
-                                                background: isMapped ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 229, 255, 0.05)',
-                                                border: isMapped ? '1px dashed rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 229, 255, 0.4)',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                cursor: isMapped ? 'not-allowed' : 'grab',
-                                                fontSize: '0.95rem',
-                                                color: isMapped ? 'rgba(255,255,255,0.3)' : '#fff',
-                                                boxShadow: isMapped ? 'none' : '0 4px 6px rgba(0,0,0,0.1)',
-                                                transition: 'transform 0.2s, background 0.2s',
-                                                userSelect: 'none',
-                                                opacity: isMapped ? 0.5 : 1
-                                            }}
-                                            onMouseOver={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.15)' }}
-                                            onMouseOut={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.05)' }}
-                                        >
-                                            <strong style={{ color: isMapped ? 'rgba(255,255,255,0.3)' : '#00e5ff', marginRight: '10px' }}>{rightItem.id})</strong>
-                                            {rightItem.text}
-                                        </div>
-                                    )})}
+                            {/* Right Side: Draggables (Only show if not text input) */}
+                            {q.inputType !== "text" && (
+                                <div className="matching-right" style={{ background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                    <h4 style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '10px', marginBottom: '20px' }}>Options (Drag these)</h4>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                        {q.rightItems.map(rightItem => {
+                                            const isMapped = Object.values(mappings).includes(rightItem.id);
+                                            return (
+                                            <div
+                                                key={rightItem.id}
+                                                draggable={!isMapped}
+                                                onDragStart={(e) => !isMapped && handleDragStartRight(e, rightItem.id)}
+                                                onDragEnd={handleDragEnd}
+                                                style={{
+                                                    background: isMapped ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 229, 255, 0.05)',
+                                                    border: isMapped ? '1px dashed rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 229, 255, 0.4)',
+                                                    padding: '15px',
+                                                    borderRadius: '8px',
+                                                    cursor: isMapped ? 'not-allowed' : 'grab',
+                                                    fontSize: '0.95rem',
+                                                    color: isMapped ? 'rgba(255,255,255,0.3)' : '#fff',
+                                                    boxShadow: isMapped ? 'none' : '0 4px 6px rgba(0,0,0,0.1)',
+                                                    transition: 'transform 0.2s, background 0.2s',
+                                                    userSelect: 'none',
+                                                    opacity: isMapped ? 0.5 : 1
+                                                }}
+                                                onMouseOver={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.15)' }}
+                                                onMouseOut={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.05)' }}
+                                            >
+                                                <strong style={{ color: isMapped ? 'rgba(255,255,255,0.3)' : '#00e5ff', marginRight: '10px' }}>{rightItem.id})</strong>
+                                                {rightItem.text}
+                                            </div>
+                                        )})}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
 
                         <div style={{ textAlign: 'center', marginTop: '40px' }}>
