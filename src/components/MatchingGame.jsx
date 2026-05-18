@@ -78,15 +78,12 @@ const firstYearQuestions = [
         id: 5,
         title: "Question 5: The Grand Code Mystery",
         theme: "Track the numbers as they change line-by-line! Watch out for math rules, loops, and shortcut operators.",
-        codeSnippet: `int a = 5;
-int b = 4;
-int c = 2;
-int d = 10;
-a = d % 3;       
-b += a;          
-c = d - b * a;   
+        codeSnippet: `int d = 8;
+int a = d % 4;       // Modulo
+int b = a + 1;       // Addition
+int c = d - 1;       // Subtraction
 for (int i = 0; i < 3; i++) {
-    d--;
+    d--;             // Loop
 }`,
         leftItems: [
             { id: "A", text: "The final value of a" },
@@ -246,8 +243,14 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         }
     };
 
-    const handleDragStart = (e, rightId) => {
-        setDraggedItem(rightId);
+    const handleDragStartRight = (e, rightId) => {
+        setDraggedItem({ source: 'right', rightId });
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", rightId);
+    };
+
+    const handleDragStartLeft = (e, leftId, rightId) => {
+        setDraggedItem({ source: 'left', leftId, rightId });
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/plain", rightId);
     };
@@ -256,14 +259,27 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         setDraggedItem(null);
     };
 
-    const handleDrop = (e, leftId) => {
+    const handleDrop = (e, targetLeftId) => {
         e.preventDefault();
-        const droppedId = String(e.dataTransfer.getData("text/plain") || draggedItem || "").trim();
+        const droppedId = String(e.dataTransfer.getData("text/plain") || (draggedItem ? draggedItem.rightId : "")).trim();
+        
         if (droppedId) {
-            setMappings(prev => ({
-                ...prev,
-                [leftId]: droppedId
-            }));
+            setMappings(prev => {
+                const newMappings = { ...prev };
+                
+                // If it was dragged from another left slot, remove it from the old slot
+                if (draggedItem && draggedItem.source === 'left' && draggedItem.leftId !== targetLeftId) {
+                    delete newMappings[draggedItem.leftId];
+                }
+                
+                // If the target slot already has an item, and we dragged from another slot, swap them!
+                if (draggedItem && draggedItem.source === 'left' && draggedItem.leftId !== targetLeftId && prev[targetLeftId]) {
+                    newMappings[draggedItem.leftId] = prev[targetLeftId];
+                }
+
+                newMappings[targetLeftId] = droppedId;
+                return newMappings;
+            });
             setDraggedItem(null);
         }
     };
@@ -442,6 +458,9 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                                 {leftItem.text}
                                             </div>
                                             <div
+                                                draggable={!!matchedRightItem}
+                                                onDragStart={(e) => matchedRightId && handleDragStartLeft(e, leftItem.id, matchedRightId)}
+                                                onDragEnd={handleDragEnd}
                                                 onDrop={(e) => handleDrop(e, leftItem.id)}
                                                 onDragOver={handleDragOver}
                                                 onClick={() => matchedRightId && unmapItem(leftItem.id)}
@@ -455,14 +474,16 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
                                                     padding: '10px',
-                                                    cursor: matchedRightItem ? 'pointer' : 'default',
+                                                    cursor: matchedRightItem ? 'grab' : 'default',
                                                     transition: 'all 0.3s',
                                                     color: matchedRightItem ? '#fff' : '#666',
                                                     fontSize: '0.9rem',
                                                     textAlign: 'center'
                                                 }}
                                             >
-                                                {matchedRightItem ? matchedRightItem.text : "Drop Here"}
+                                                {matchedRightItem ? (
+                                                    <span><strong style={{ color: '#00e5ff', marginRight: '5px' }}>{matchedRightItem.id})</strong> {matchedRightItem.text}</span>
+                                                ) : "Drop Here"}
                                             </div>
                                         </div>
                                     );
@@ -479,7 +500,7 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                         <div
                                             key={rightItem.id}
                                             draggable={!isMapped}
-                                            onDragStart={(e) => !isMapped && handleDragStart(e, rightItem.id)}
+                                            onDragStart={(e) => !isMapped && handleDragStartRight(e, rightItem.id)}
                                             onDragEnd={handleDragEnd}
                                             style={{
                                                 background: isMapped ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 229, 255, 0.05)',
