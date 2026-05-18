@@ -4,7 +4,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 const firstYearQuestions = [
     {
         id: 1,
-        title: "Question 1: Structures (Grouping Data Together)",
+        title: "Question 1: Making and Using a Simple Function",
+        theme: "How to create a basic function and make it run in your main program.",
+        leftItems: [
+            { id: "A", text: "Choose a data type for what the function returns (like void) and give it a name." },
+            { id: "B", text: "Put empty parentheses () after your function name." },
+            { id: "C", text: "Write the code you want the function to run inside curly brackets { }." },
+            { id: "D", text: "Inside the main() function, call your function by writing its name followed by ();" }
+        ],
+        rightItems: [
+            { id: "1", text: "Step 1: Define the function signature." },
+            { id: "2", text: "Step 2: Provide the input parameter brackets." },
+            { id: "3", text: "Step 3: Build the code block body." },
+            { id: "4", text: "Step 4: Execute/Trigger the function inside main." }
+        ],
+        correctSequence: ["1", "2", "3", "4"]
+    },
+    {
+        id: 2,
+        title: "Question 2: Structures (Grouping Data Together)",
         theme: "Think of a structure like a student ID card that holds different pieces of information about one person.",
         leftItems: [
             { id: "A", text: "struct Student { ... };" },
@@ -13,17 +31,17 @@ const firstYearQuestions = [
             { id: "D", text: "The . (Dot operator)" }
         ],
         rightItems: [
-            { id: "1", text: "A single piece of information inside the structure (like age or grade)." },
-            { id: "2", text: "The blueprint or template that decides what information a Student card should hold." },
-            { id: "3", text: "The actual dot symbol used to look inside the structure and grab a specific piece of data." },
-            { id: "4", text: "Creating one real, physical student card named s1 using the blueprint." }
+            { id: "1", text: "The blueprint or template that decides what information a Student card should hold." },
+            { id: "2", text: "Creating one real, physical student card named s1 using the blueprint." },
+            { id: "3", text: "A single piece of information inside the structure (like age or grade)." },
+            { id: "4", text: "The actual dot symbol used to look inside the structure and grab a specific piece of data." }
         ],
-        correctSequence: ["2", "4", "1", "3"]
+        correctSequence: ["1", "2", "3", "4"]
     },
     {
-        id: 2,
-        title: "Question 2: Pointers (The Map/Address)",
-        theme: "Pointers don't hold normal numbers like scores; they hold the memory address of where a variable is hiding.",
+        id: 3,
+        title: "Question 3: Pointers (The Map/Address)",
+        theme: "Pointers don't hold normal numbers like scores; they hold memory addresses.",
         leftItems: [
             { id: "A", text: "int *ptr;" },
             { id: "B", text: "&myVariable" },
@@ -31,53 +49,35 @@ const firstYearQuestions = [
             { id: "D", text: "*ptr = 20;" }
         ],
         rightItems: [
-            { id: "1", text: "\"Go to the address written on the map and change or see the actual value hidden there.\"" },
-            { id: "2", text: "Creating a special \"pointer\" variable that can hold the address of a number." },
-            { id: "3", text: "The \"Address-of\" operator. It finds the exact house number of a variable in the computer's memory." },
-            { id: "4", text: "Think of this as the actual GPS coordinate or house address of a variable." }
+            { id: "1", text: "Creating a special pointer variable that can hold the memory location of an integer." },
+            { id: "2", text: "The physical house number or GPS coordinate of where the variable lives in memory." },
+            { id: "3", text: "The 'Address-of' operator used to look up the location of any variable." },
+            { id: "4", text: "Go to the address written on the pointer map and change the value hidden inside it to 20." }
         ],
-        correctSequence: ["2", "4", "3", "1"]
+        correctSequence: ["1", "2", "3", "4"]
     },
     {
-        id: 3,
-        title: "Question 3: Arrays (The Egg Carton)",
-        theme: "An array is like an egg carton or a row of lockers where items are lined up in order, starting from locker number 0.",
+        id: 4,
+        title: "Question 4: Arrays (The Locker Row)",
+        theme: "An array is like a row of lockers where items are lined up in order, starting from 0.",
         leftItems: [
             { id: "A", text: "int scores[5];" },
             { id: "B", text: "Index" },
             { id: "C", text: "scores[0]" },
-            { id: "D", text: "\"Out of Bounds\" Error" }
+            { id: "D", text: "'Out of Bounds' Error" }
         ],
         rightItems: [
-            { id: "1", text: "The address or locker number of an item (always starts at 0, not 1)." },
-            { id: "2", text: "Create a row of 5 connected boxes that can each hold a whole number." },
-            { id: "3", text: "An accidental mistake where you try to open a locker that doesn't exist (like locker number 10 when you only have 5)." },
-            { id: "4", text: "Open and look inside the very first box of the row." }
+            { id: "1", text: "Create a row of 5 connected memory boxes that can each hold a whole number." },
+            { id: "2", text: "The specific locker number used to access an item (always starts at 0)." },
+            { id: "3", text: "Access and open the very first box in the row." },
+            { id: "4", text: "Accidentally trying to open a locker index that does not exist (e.g., locker 10 when you only have 5)." }
         ],
-        correctSequence: ["2", "1", "4", "3"]
-    },
-    {
-        id: 4,
-        title: "Question 4: Loops (Repeating Actions)",
-        theme: "Running the same piece of code over and over again until a condition tells it to stop.",
-        leftItems: [
-            { id: "A", text: "while (energy > 0)" },
-            { id: "B", text: "Infinite Loop" },
-            { id: "C", text: "Loop Counter (e.g., i++)" },
-            { id: "D", text: "break;" }
-        ],
-        rightItems: [
-            { id: "1", text: "A tracking variable (like a lap counter) that goes up by 1 every time the loop completes a turn." },
-            { id: "2", text: "Keep running this code as long as my energy is greater than 0." },
-            { id: "3", text: "Instantly stop the loop right now and jump out of it completely." },
-            { id: "4", text: "A loop that never stops running because the condition is always true (the game freezes!)." }
-        ],
-        correctSequence: ["2", "4", "1", "3"]
+        correctSequence: ["1", "2", "3", "4"]
     },
     {
         id: 5,
         title: "Question 5: The Grand Code Mystery",
-        theme: "Track the numbers as they change line-by-line! Watch out for math rules, loops, and shortcut operators.",
+        theme: "Track the variables line-by-line using math rules, shortcut operators, and loops.",
         codeSnippet: `int a = 5;
 int b = 4;
 int c = 2;
@@ -90,10 +90,10 @@ for (int i = 0; i < 3; i++) {
 }`,
         inputType: "text",
         leftItems: [
-            { id: "A", text: "The final value of a" },
-            { id: "B", text: "The final value of b" },
-            { id: "C", text: "The final value of c" },
-            { id: "D", text: "The final value of d" }
+            { id: "A", text: "The final value of variable 'a'" },
+            { id: "B", text: "The final value of variable 'b'" },
+            { id: "C", text: "The final value of variable 'c'" },
+            { id: "D", text: "The final value of variable 'd'" }
         ],
         correctTextAnswers: { A: "1", B: "5", C: "5", D: "7" }
     }
@@ -102,8 +102,8 @@ for (int i = 0; i < 3; i++) {
 const seniorQuestions = [
     {
         id: 1,
-        title: "Question 1: Data Structures in the Real World",
-        theme: "Match the data structure to the real-world system architecture where it is the absolute best choice.",
+        title: "Question 1: Data Structures in System Architecture",
+        theme: "Match the data structure to the architectural subsystem where it is the optimal choice.",
         leftItems: [
             { id: "A", text: "Doubly Linked List" },
             { id: "B", text: "Queue" },
@@ -111,17 +111,17 @@ const seniorQuestions = [
             { id: "D", text: "Binary Search Tree" }
         ],
         rightItems: [
-            { id: "1", text: "Designing the \"Undo\" (Ctrl+Z) memory buffer for a text editor." },
-            { id: "2", text: "Implementing an auto-complete search bar or hierarchical file system." },
-            { id: "3", text: "Managing printing tasks on a shared server where order of arrival matters." },
-            { id: "4", text: "Building the back-and-forth cache navigation of a web browser." }
+            { id: "1", text: "Building the back-and-forth browser cache history navigation path." },
+            { id: "2", text: "Managing print job streams on a shared system where arrival sequence matters." },
+            { id: "3", text: "Designing the memory rollback and Undo (Ctrl+Z) state management engine." },
+            { id: "4", text: "Implementing autocomplete dictionaries or hierarchical folder indexes." }
         ],
-        correctSequence: ["4", "3", "1", "2"]
+        correctSequence: ["1", "2", "3", "4"]
     },
     {
         id: 2,
         title: "Question 2: Algorithmic Strategy Identity",
-        theme: "Match the design paradigm to its core behavioral approach.",
+        theme: "Match the design paradigm to its core problem-solving behavior.",
         leftItems: [
             { id: "A", text: "Dynamic Programming" },
             { id: "B", text: "Backtracking" },
@@ -129,89 +129,63 @@ const seniorQuestions = [
             { id: "D", text: "Greedy Method" }
         ],
         rightItems: [
-            { id: "1", text: "Exploring a path, hitting a dead end, and explicitly undoing the last step to try another branch." },
-            { id: "2", text: "Breaking a problem into overlapping parts and caching answers in a table to prevent recalculation." },
-            { id: "3", text: "Grabbing the immediate best choice at each localized step, hoping it leads to a global optimum." },
-            { id: "4", text: "Pruning entire subtrees of a decision tree early if calculations prove they cannot beat the current best score." }
+            { id: "1", text: "Breaking a problem down into overlapping subproblems and caching answers in a table." },
+            { id: "2", text: "Traversing a state-space branch, detecting a dead end, and explicitly reverting states to try alternative forks." },
+            { id: "3", text: "Using bounding functions to permanently prune suboptimal solution spaces early within optimization trees." },
+            { id: "4", text: "Making locally optimal choices sequentially at each step hoping it reaches global optimization." }
         ],
-        correctSequence: ["2", "1", "4", "3"]
+        correctSequence: ["1", "2", "3", "4"]
     },
     {
         id: 3,
-        title: "Question 3: Worst-Case Time Complexities (O)",
-        theme: "Match the specific data structure operation to its worst-case performance guarantee.",
+        title: "Question 3: Worst-Case Complexity Thresholds",
+        theme: "Identify the worst-case asymptotic bounds for fundamental operations.",
         leftItems: [
-            { id: "A", text: "Searching for an element in a completely unbalanced, skewed Binary Search Tree." },
-            { id: "B", text: "Accessing the n-th node item in a standard Singly Linked List." },
-            { id: "C", text: "Popping/Deleting the top item off an active Stack." },
-            { id: "D", text: "Finding an item inside a strictly balanced AVL Tree." }
+            { id: "A", text: "Popping/Deleting the top node off an active Stack structure." },
+            { id: "B", text: "Searching for an element within a fully balanced AVL Tree." },
+            { id: "C", text: "Searching for an element inside a completely skewed/unbalanced BST." },
+            { id: "D", text: "Accessing the absolute n-th positional element in a Singly Linked List." }
         ],
         rightItems: [
-            { id: "1", text: "O(1)" },
-            { id: "2", text: "O(log n)" },
-            { id: "3", text: "O(n) (Degrades to linear sequence)" },
-            { id: "4", text: "O(n) (Must traverse element-by-element)" }
+            { id: "1", text: "Worst-Case Time: O(1)" },
+            { id: "2", text: "Worst-Case Time: O(log n)" },
+            { id: "3", text: "Worst-Case Time: O(n) due to linear tree degradation" },
+            { id: "4", text: "Worst-Case Time: O(n) due to sequential traversal constraints" }
         ],
-        correctSequence: ["3", "4", "1", "2"]
+        correctSequence: ["1", "2", "3", "4"]
     },
     {
         id: 4,
-        title: "Question 4: Problem Classification",
-        theme: "Match the classical computer science problem to the standard paradigm used to solve it efficiently.",
+        title: "Question 4: Classic Problem Matrix",
+        theme: "Match the foundational problem statement to its canonical algorithmic solution model.",
         leftItems: [
-            { id: "A", text: "0/1 Knapsack Problem" },
-            { id: "B", text: "N-Queens Placement Matrix" },
-            { id: "C", text: "Level-Order Traversal of a Tree Graph" },
-            { id: "D", text: "Kruskal's Minimum Spanning Tree (MST)" }
+            { id: "A", text: "0/1 Knapsack Decision Problem" },
+            { id: "B", text: "N-Queens Non-Attacking Placement Matrix" },
+            { id: "C", text: "Level-Order Graph/Tree Structural Traversal" },
+            { id: "D", text: "Kruskal's Minimum Spanning Tree Execution" }
         ],
         rightItems: [
-            { id: "1", text: "Backtracking" },
-            { id: "2", text: "Dynamic Programming" },
-            { id: "3", text: "Greedy Method" },
-            { id: "4", text: "Queue (Breadth-First Search)" }
+            { id: "1", text: "Solved optimally using a Dynamic Programming table matrix." },
+            { id: "2", text: "Solved systematically by tracking configurations via Backtracking recursion paths." },
+            { id: "3", text: "Implemented sequentially using a First-In-First-Out Queue (Breadth-First Search)." },
+            { id: "4", text: "Constructed greedily by processing sorted structural edge weights." }
         ],
-        correctSequence: ["2", "1", "4", "3"]
+        correctSequence: ["1", "2", "3", "4"]
     },
     {
         id: 5,
         title: "Question 5: Code Analysis — Hash Table Tracing",
-        theme: "Analyze the C code snippet below using Linear Probing collision handling, then match the tracking questions to their final values.",
-        codeSnippet: `#include <stdio.h>
-#define SIZE 7
-
-int hashFunction(int key) {
-    return (key * 3) % SIZE;
-}
-
-void insert(int hashTable[], int key) {
-    int index = hashFunction(key);
-    while (hashTable[index] != -1) {
-        index = (index + 1) % SIZE; // Linear Probing
-    }
-    hashTable[index] = key;
-}
-
-int main() {
-    int hashTable[SIZE] = {-1, -1, -1, -1, -1, -1, -1};
-    insert(hashTable, 4);
-    insert(hashTable, 9);
-    insert(hashTable, 11);
-    insert(hashTable, 16);
-    return 0;
-}`,
+        theme: "Trace the execution of a size-7 modulo-based hash map using Linear Probing insertion.",
+        codeSnippet: `// Insert sequence: 4, 9, 11, and 16 into a table of size 7
+// Hash equation formula: (key * 3) % 7`,
+        inputType: "text",
         leftItems: [
-            { id: "A", text: "What is the final array index position of the key 11?" },
-            { id: "B", text: "What is the final array index position of the key 16?" },
-            { id: "C", text: "What is the integer value stored at index 6 of the array?" },
-            { id: "D", text: "What raw index does hashFunction(9) yield before linear probing?" }
+            { id: "A", text: "The final array index position containing key 11" },
+            { id: "B", text: "The final array index position containing key 16" },
+            { id: "C", text: "The integer value structurally residing inside index slot 6" },
+            { id: "D", text: "The initial raw index returned by hashFunction(9) before collision probing" }
         ],
-        rightItems: [
-            { id: "1", text: "9" },
-            { id: "2", text: "0" },
-            { id: "3", text: "6" },
-            { id: "4", text: "1" }
-        ],
-        correctSequence: ["2", "4", "1", "3"]
+        correctTextAnswers: { A: "0", B: "1", C: "9", D: "6" }
     }
 ];
 
@@ -260,16 +234,16 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
     const handleDrop = (e, targetLeftId) => {
         e.preventDefault();
         const droppedId = String(e.dataTransfer.getData("text/plain") || (draggedItem ? draggedItem.rightId : "")).trim();
-        
+
         if (droppedId) {
             setMappings(prev => {
                 const newMappings = { ...prev };
-                
+
                 // If it was dragged from another left slot, remove it from the old slot
                 if (draggedItem && draggedItem.source === 'left' && draggedItem.leftId !== targetLeftId) {
                     delete newMappings[draggedItem.leftId];
                 }
-                
+
                 // If the target slot already has an item, and we dragged from another slot, swap them!
                 if (draggedItem && draggedItem.source === 'left' && draggedItem.leftId !== targetLeftId && prev[targetLeftId]) {
                     newMappings[draggedItem.leftId] = prev[targetLeftId];
@@ -329,14 +303,14 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
             }
 
             setIsChecking(true);
-            
+
             // Extract the user's sequence from top to bottom
             const userSequence = q.leftItems.map(l => String(mappings[l.id] || "").trim());
             const expectedSequence = q.correctSequence.map(s => String(s).trim());
-            
+
             // Compare the user's sequence array strictly against the expected sequence
-            allCorrect = userSequence.length === expectedSequence.length && 
-                         userSequence.every((val, index) => val === expectedSequence[index]);
+            allCorrect = userSequence.length === expectedSequence.length &&
+                userSequence.every((val, index) => val === expectedSequence[index]);
         }
 
         if (allCorrect) {
@@ -483,11 +457,11 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                             }}>
                                                 {leftItem.text}
                                             </div>
-                                            
+
                                             {q.inputType === "text" ? (
-                                                <input 
-                                                    type="text" 
-                                                    value={mappings[leftItem.id] || ''} 
+                                                <input
+                                                    type="text"
+                                                    value={mappings[leftItem.id] || ''}
                                                     onChange={(e) => handleTextChange(leftItem.id, e.target.value)}
                                                     placeholder="Enter value..."
                                                     style={{
@@ -547,31 +521,32 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
                                         {q.rightItems.map(rightItem => {
                                             const isMapped = Object.values(mappings).includes(rightItem.id);
                                             return (
-                                            <div
-                                                key={rightItem.id}
-                                                draggable={!isMapped}
-                                                onDragStart={(e) => !isMapped && handleDragStartRight(e, rightItem.id)}
-                                                onDragEnd={handleDragEnd}
-                                                style={{
-                                                    background: isMapped ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 229, 255, 0.05)',
-                                                    border: isMapped ? '1px dashed rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 229, 255, 0.4)',
-                                                    padding: '15px',
-                                                    borderRadius: '8px',
-                                                    cursor: isMapped ? 'not-allowed' : 'grab',
-                                                    fontSize: '0.95rem',
-                                                    color: isMapped ? 'rgba(255,255,255,0.3)' : '#fff',
-                                                    boxShadow: isMapped ? 'none' : '0 4px 6px rgba(0,0,0,0.1)',
-                                                    transition: 'transform 0.2s, background 0.2s',
-                                                    userSelect: 'none',
-                                                    opacity: isMapped ? 0.5 : 1
-                                                }}
-                                                onMouseOver={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.15)' }}
-                                                onMouseOut={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.05)' }}
-                                            >
-                                                <strong style={{ color: isMapped ? 'rgba(255,255,255,0.3)' : '#00e5ff', marginRight: '10px' }}>{rightItem.id})</strong>
-                                                {rightItem.text}
-                                            </div>
-                                        )})}
+                                                <div
+                                                    key={rightItem.id}
+                                                    draggable={!isMapped}
+                                                    onDragStart={(e) => !isMapped && handleDragStartRight(e, rightItem.id)}
+                                                    onDragEnd={handleDragEnd}
+                                                    style={{
+                                                        background: isMapped ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 229, 255, 0.05)',
+                                                        border: isMapped ? '1px dashed rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 229, 255, 0.4)',
+                                                        padding: '15px',
+                                                        borderRadius: '8px',
+                                                        cursor: isMapped ? 'not-allowed' : 'grab',
+                                                        fontSize: '0.95rem',
+                                                        color: isMapped ? 'rgba(255,255,255,0.3)' : '#fff',
+                                                        boxShadow: isMapped ? 'none' : '0 4px 6px rgba(0,0,0,0.1)',
+                                                        transition: 'transform 0.2s, background 0.2s',
+                                                        userSelect: 'none',
+                                                        opacity: isMapped ? 0.5 : 1
+                                                    }}
+                                                    onMouseOver={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.15)' }}
+                                                    onMouseOut={(e) => { if (!isMapped) e.currentTarget.style.background = 'rgba(0, 229, 255, 0.05)' }}
+                                                >
+                                                    <strong style={{ color: isMapped ? 'rgba(255,255,255,0.3)' : '#00e5ff', marginRight: '10px' }}>{rightItem.id})</strong>
+                                                    {rightItem.text}
+                                                </div>
+                                            )
+                                        })}
                                     </div>
                                 </div>
                             )}
