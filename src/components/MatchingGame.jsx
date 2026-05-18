@@ -177,7 +177,8 @@ const seniorQuestions = [
         title: "Question 5: Code Analysis — Hash Table Tracing",
         theme: "Trace the execution of a size-7 modulo-based hash map using Linear Probing insertion.",
         codeSnippet: `// Insert sequence: 4, 9, 11, and 16 into a table of size 7
-// Hash equation formula: (key * 3) % 7`,
+// Hash equation formula: (key * 3) % 7
+// If a collision occurs, the table uses Linear Probing`,
         inputType: "text",
         leftItems: [
             { id: "A", text: "The final array index position containing key 11" },
