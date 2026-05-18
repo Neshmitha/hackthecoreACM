@@ -50,8 +50,13 @@ function App() {
   };
 
   const handleRound2Complete = () => {
+    const durationInSeconds = Math.floor((Date.now() - startTime) / 1000);
+    setTotalTime(durationInSeconds);
+
     sendUpdate({ action: 'updateRound', teamName: teamData.teamName, round: 'round2' });
-    setCurrentRound('round3');
+    sendUpdate({ action: 'finish', teamName: teamData.teamName, totalTime: durationInSeconds });
+    
+    setCurrentRound('finale');
   };
   
   const handlePenalty = (seconds) => {
