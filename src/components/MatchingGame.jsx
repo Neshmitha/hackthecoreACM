@@ -18,7 +18,7 @@ const firstYearQuestions = [
             { id: "3", text: "The actual dot symbol used to look inside the structure and grab a specific piece of data." },
             { id: "4", text: "Creating one real, physical student card named s1 using the blueprint." }
         ],
-        correctMapping: { A: "2", B: "4", C: "1", D: "3" }
+        correctSequence: ["2", "4", "1", "3"]
     },
     {
         id: 2,
@@ -36,7 +36,7 @@ const firstYearQuestions = [
             { id: "3", text: "The \"Address-of\" operator. It finds the exact house number of a variable in the computer's memory." },
             { id: "4", text: "Think of this as the actual GPS coordinate or house address of a variable." }
         ],
-        correctMapping: { A: "2", B: "4", C: "3", D: "1" }
+        correctSequence: ["2", "4", "3", "1"]
     },
     {
         id: 3,
@@ -54,7 +54,7 @@ const firstYearQuestions = [
             { id: "3", text: "An accidental mistake where you try to open a locker that doesn't exist (like locker number 10 when you only have 5)." },
             { id: "4", text: "Open and look inside the very first box of the row." }
         ],
-        correctMapping: { A: "2", B: "1", C: "4", D: "3" }
+        correctSequence: ["2", "1", "4", "3"]
     },
     {
         id: 4,
@@ -72,7 +72,7 @@ const firstYearQuestions = [
             { id: "3", text: "Instantly stop the loop right now and jump out of it completely." },
             { id: "4", text: "A loop that never stops running because the condition is always true (the game freezes!)." }
         ],
-        correctMapping: { A: "2", B: "4", C: "1", D: "3" }
+        correctSequence: ["2", "4", "1", "3"]
     },
     {
         id: 5,
@@ -100,7 +100,7 @@ for (int i = 0; i < 3; i++) {
             { id: "3", text: "0" },
             { id: "4", text: "5" }
         ],
-        correctMapping: { A: "3", B: "1", C: "2", D: "4" }
+        correctSequence: ["3", "1", "2", "4"]
     }
 ];
 
@@ -121,7 +121,7 @@ const seniorQuestions = [
             { id: "3", text: "Managing printing tasks on a shared server where order of arrival matters." },
             { id: "4", text: "Building the back-and-forth cache navigation of a web browser." }
         ],
-        correctMapping: { A: "4", B: "3", C: "1", D: "2" }
+        correctSequence: ["4", "3", "1", "2"]
     },
     {
         id: 2,
@@ -139,7 +139,7 @@ const seniorQuestions = [
             { id: "3", text: "Grabbing the immediate best choice at each localized step, hoping it leads to a global optimum." },
             { id: "4", text: "Pruning entire subtrees of a decision tree early if calculations prove they cannot beat the current best score." }
         ],
-        correctMapping: { A: "2", B: "1", C: "4", D: "3" }
+        correctSequence: ["2", "1", "4", "3"]
     },
     {
         id: 3,
@@ -157,7 +157,7 @@ const seniorQuestions = [
             { id: "3", text: "O(n) (Degrades to linear sequence)" },
             { id: "4", text: "O(n) (Must traverse element-by-element)" }
         ],
-        correctMapping: { A: "3", B: "4", C: "1", D: "2" }
+        correctSequence: ["3", "4", "1", "2"]
     },
     {
         id: 4,
@@ -175,7 +175,7 @@ const seniorQuestions = [
             { id: "3", text: "Greedy Method" },
             { id: "4", text: "Queue (Breadth-First Search)" }
         ],
-        correctMapping: { A: "2", B: "1", C: "4", D: "3" }
+        correctSequence: ["2", "1", "4", "3"]
     },
     {
         id: 5,
@@ -216,7 +216,7 @@ int main() {
             { id: "3", text: "6" },
             { id: "4", text: "1" }
         ],
-        correctMapping: { A: "2", B: "4", C: "1", D: "3" }
+        correctSequence: ["2", "4", "1", "3"]
     }
 ];
 
@@ -254,10 +254,11 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
 
     const handleDrop = (e, leftId) => {
         e.preventDefault();
-        if (draggedItem) {
+        const droppedId = e.dataTransfer.getData("text/plain") || draggedItem;
+        if (droppedId) {
             setMappings(prev => ({
                 ...prev,
-                [leftId]: draggedItem
+                [leftId]: droppedId
             }));
             setDraggedItem(null);
         }
@@ -285,12 +286,13 @@ const MatchingGame = ({ teamData, round1Passkey, onComplete, onPenalty }) => {
         }
 
         setIsChecking(true);
-        let allCorrect = true;
-        Object.keys(mappings).forEach(leftId => {
-            if (mappings[leftId] !== q.correctMapping[leftId]) {
-                allCorrect = false;
-            }
-        });
+        
+        // Extract the user's sequence from top to bottom
+        const userSequence = q.leftItems.map(l => mappings[l.id]);
+        
+        // Compare the user's sequence array strictly against the correctSequence array
+        const allCorrect = userSequence.length === q.correctSequence.length && 
+                           userSequence.every((val, index) => val === q.correctSequence[index]);
 
         if (allCorrect) {
             setErrorMsg("");
